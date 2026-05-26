@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Sala - Instituto Nuestra Señora del Carmen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f0f7 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1a2a3a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* HEADER CON LOGO */
+        .header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #c41e3a 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 40px rgba(30, 58, 95, 0.3);
+            color: white;
+        }
+
+        .logo-section {
+            flex-shrink: 0;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            min-width: 100px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-section img {
+            max-width: 90px;
+            max-height: 90px;
+            width: auto;
+            height: auto;
+            animation: floatLogo 3s ease-in-out infinite;
+        }
+
+        .logo-section.sin-imagen {
+            color: #999;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @keyframes floatLogo {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .header-content h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            line-height: 1.3;
+        }
+
+        .header-content p {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        /* TABS PRINCIPALES */
+        .main-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .main-tab-btn {
+            padding: 12px 24px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Raleway', sans-serif;
+            transition: all 0.3s ease;
+            color: #1a2a3a;
+        }
+
+        .main-tab-btn:hover {
+            border-color: #c41e3a;
+            color: #c41e3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(196, 30, 58, 0.15);
+        }
+
+        .main-tab-btn.active {
+            background: linear-gradient(135deg, #1e3a5f 0%, #c41e3a 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 6px 16px rgba(196, 30, 58, 0.3);
+        }
+
+        /* CONTENEDOR DE TABS */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* TABS DE NAVEGACION SECUNDARIAS */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .tab-btn {
+            padding: 10px 18px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'Raleway', sans-serif;
+            transition: all 0.3s ease;
+            color: #1a2a3a;
+        }
+
+        .tab-btn:hover {
+            border-color: #c41e3a;
+            color: #c41e3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(196, 30, 58, 0.15);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #1e3a5f 0%, #c41e3a 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 6px 16px rgba(196, 30, 58, 0.3);
+        }
+
+        /* SECCIONES DE GRADO */
+        .grado-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #c41e3a;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .grado-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .grado-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .grado-header h2 {
+            font-size: 20px;
+            color: #1e3a5f;
+            font-weight: 600;
+        }
+
+        .grado-badge {
+            background: linear-gradient(135deg, #1e3a5f 0%, #c41e3a 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* GRID DE MESAS */
+        .mesa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .mesa-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mesa-card:hover {
+            transform: translateY(-4px);
+            border-color: #c41e3a;
+            box-shadow: 0 8px 20px rgba(196, 30, 58, 0.15);
+        }
+
+        .mesa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8e8e8;
+        }
+
+        .mesa-numero {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e3a5f;
+        }
+
+        .contador-alumnos {
+            background: #c41e3a;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* GRUPOS DE ROBOTICA */
+        .grupos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 18px;
+        }
+
+        .grupo-card {
+            background: linear-gradient(135deg, #f0f9f5 0%, #fff 100%);
+            border: 2px solid #27ae60;
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .grupo-card:hover {
+            transform: translateY(-4px);
+            border-color: #1e7e34;
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.15);
+        }
+
+        .grupo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8e8e8;
+        }
+
+        .grupo-nombre {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a2a3a;
+            flex: 1;
+        }
+
+        .grupo-nombre-input {
+            padding: 8px;
+            border: 1.5px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Raleway', sans-serif;
+            flex: 1;
+            color: #1a2a3a;
+        }
+
+        .grupo-nombre-input:focus {
+            outline: none;
+            border-color: #27ae60;
+            background: #f9fdfb;
+        }
+
+        .contador-grupo {
+            background: #27ae60;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .alumnos-container {
+            min-height: 80px;
+            margin-bottom: 12px;
+        }
+
+        .alumno-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .alumno-item:hover {
+            background: #fff5f5;
+            border-color: #c41e3a;
+        }
+
+        .alumno-nombre {
+            flex: 1;
+            color: #1a2a3a;
+            font-weight: 500;
+        }
+
+        .btn-eliminar {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 8px;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .btn-eliminar:hover {
+            color: #c41e3a;
+            transform: scale(1.3);
+        }
+
+        /* INPUT Y BUTTON */
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .alumno-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1.5px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Raleway', sans-serif;
+            transition: all 0.2s ease;
+            color: #1a2a3a;
+        }
+
+        .alumno-input:focus {
+            outline: none;
+            border-color: #c41e3a;
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+            background: #fff9f9;
+        }
+
+        .alumno-input::placeholder {
+            color: #999;
+        }
+
+        .btn-agregar {
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #1e3a5f 0%, #c41e3a 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Raleway', sans-serif;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 8px rgba(196, 30, 58, 0.2);
+        }
+
+        .btn-agregar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(196, 30, 58, 0.3);
+        }
+
+        .btn-agregar:active {
+            transform: translateY(0);
+        }
+
+        .btn-agregar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-agregar-grupo {
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #27ae60 0%, #1e7e34 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Raleway', sans-serif;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
+        }
+
+        .btn-agregar-grupo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(39, 174, 96, 0.3);
+        }
+
+        /* BOTONES DE ACCION GENERALES */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-general {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-descargar {
+            background: linear-gradient(135deg, #27ae60 0%, #1e7e34 100%);
+            color: white;
+        }
+
+        .btn-limpiar {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-general:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: #c41e3a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .header-content h1 {
+                font-size: 22px;
+            }
+
+            .mesa-grid,
+            .grupos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs,
+            .main-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn,
+            .main-tab-btn {
+                width: 100%;
+            }
+        }
+
+        /* MENSAJE DE ESTADO */
+        .mensaje {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 14px 20px;
+            background: white;
+            border-left: 4px solid #c41e3a;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            display: none;
+            max-width: 300px;
+        }
+
+        .mensaje.visible {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .mensaje.exito {
+            border-left-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .mensaje.error {
+            border-left-color: #e74c3c;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER CON LOGO -->
+        <div class="header">
+            <div class="logo-section" id="logoSection">
+                <img id="logoImg" src="" alt="Logo Instituto Nuestra Señora del Carmen" style="display:none;">
+                <div id="logoPlaceholder" class="sin-imagen">Logo no encontrado<br><small>Coloca el archivo de imagen en
+                        la misma carpeta</small></div>
+            </div>
+            <div class="header-content">
+                <h1>Gestor de Sala - Instituto Nuestra Señora del Carmen</h1>
+                <p>Organiza tu sala de informática y grupos de robótica de forma rápida y eficiente</p>
+            </div>
+        </div>
+
+        <!-- TABS PRINCIPALES -->
+        <div class="main-tabs">
+            <button class="main-tab-btn active" onclick="mostrarTab('informatica')">💻 Sala de Informática</button>
+            <button class="main-tab-btn" onclick="mostrarTab('robotica')">🤖 Grupos de Robótica</button>
+        </div>
+
+        <!-- TAB INFORMATICA -->
+        <div id="informatica" class="tab-content active">
+            <!-- NAVEGACION POR GRADO -->
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="mostrarGrado('todos')">📚 Todos los grados</button>
+                <button class="tab-btn" onclick="mostrarGrado('1')">1º Grado</button>
+                <button class="tab-btn" onclick="mostrarGrado('2')">2º Grado</button>
+                <button class="tab-btn" onclick="mostrarGrado('3')">3º Grado</button>
+                <button class="tab-btn" onclick="mostrarGrado('4')">4º Grado</button>
+                <button class="tab-btn" onclick="mostrarGrado('5')">5º Grado</button>
+                <button class="tab-btn" onclick="mostrarGrado('6')">6º Grado</button>
+                <button class="tab-btn" onclick="mostrarGrado('7')">7º Grado</button>
+            </div>
+
+            <!-- CONTENEDOR DE GRADOS -->
+            <div id="contenedor-grados"></div>
+
+            <!-- BOTONES DE ACCION -->
+            <div class="action-buttons">
+                <button class="btn-general btn-descargar" onclick="descargarJSON('informatica')">💾 Descargar
+                    datos</button>
+                <button class="btn-general btn-limpiar" onclick="limpiarTodo('informatica')">🗑️ Limpiar todo</button>
+            </div>
+        </div>
+
+        <!-- TAB ROBOTICA -->
+        <div id="robotica" class="tab-content">
+            <!-- NAVEGACION POR GRADO ROBOTICA -->
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="mostrarGradoRobotica('todos')">📚 Todos los grados</button>
+                <button class="tab-btn" onclick="mostrarGradoRobotica('1')">1º Grado</button>
+                <button class="tab-btn" onclick="mostrarGradoRobotica('2')">2º Grado</button>
+                <button class="tab-btn" onclick="mostrarGradoRobotica('3')">3º Grado</button>
+                <button class="tab-btn" onclick="mostrarGradoRobotica('4')">4º Grado</button>
+                <button class="tab-btn" onclick="mostrarGradoRobotica('5')">5º Grado</button>
+                <button class="tab-btn" onclick="mostrarGradoRobotica('6')">6º Grado</button>
+                <button class="tab-btn" onclick="mostrarGradoRobotica('7')">7º Grado</button>
+            </div>
+
+            <!-- CONTENEDOR DE GRUPOS -->
+            <div id="contenedor-grupos"></div>
+
+            <!-- BOTONES DE ACCION ROBOTICA -->
+            <div class="action-buttons">
+                <button class="btn-general btn-descargar" onclick="descargarJSON('robotica')">💾 Descargar
+                    datos</button>
+                <button class="btn-general btn-limpiar" onclick="limpiarTodo('robotica')">🗑️ Limpiar todo</button>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>Gestor de Sala © 2024 - Instituto Nuestra Señora del Carmen | Hecho con ❤️ para docentes</p>
+        </div>
+    </div>
+
+    <!-- MENSAJE DE ESTADO -->
+    <div class="mensaje" id="mensaje"></div>
+
+    <script>
+        // ==================== CARGAR LOGO ====================
+        function cargarLogo() {
+            const logoImg = document.getElementById('logoImg');
+            const logoPlaceholder = document.getElementById('logoPlaceholder');
+
+            // Intentar cargar la imagen
+            logoImg.onload = function () {
+                logoPlaceholder.style.display = 'none';
+                logoImg.style.display = 'block';
+            };
+
+            logoImg.onerror = function () {
+                logoPlaceholder.style.display = 'block';
+                logoImg.style.display = 'none';
+            };
+
+            // Intenta cargar desde diferentes nombres comunes
+            const posiblesNombres = [
+                'LOGO_CARMEN_-_ESCUDO.jpg',
+                'logo.jpg',
+                'logo.png',
+                'LOGO.jpg',
+                'LOGO.png',
+                'escudo.jpg',
+                'escudo.png'
+            ];
+
+            function intentarCargar(index) {
+                if (index < posiblesNombres.length) {
+                    logoImg.src = posiblesNombres[index];
+                }
+            }
+
+            // Comienza con el nombre exacto
+            logoImg.src = 'C:\Users\julia\OneDrive\Escritorio\Grupos Informática-Robótica';
+        }
+
+        // ==================== INDEXEDDB ====================
+        let db;
+
+        function inicializarDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('GestorSalaDB', 1);
+
+                request.onerror = () => {
+                    console.error('Error al abrir la BD');
+                    reject();
+                };
+
+                request.onsuccess = () => {
+                    db = request.result;
+                    console.log('Base de datos abierta correctamente');
+                    cargarDatos();
+                    resolve();
+                };
+
+                request.onupgradeneeded = (event) => {
+                    db = event.target.result;
+                    if (!db.objectStoreNames.contains('informatica')) {
+                        db.createObjectStore('informatica');
+                    }
+                    if (!db.objectStoreNames.contains('robotica')) {
+                        db.createObjectStore('robotica');
+                    }
+                };
+            });
+        }
+
+        function guardarEnDB(tipo, datos) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([tipo], 'readwrite');
+                const store = transaction.objectStore(tipo);
+                const request = store.put(datos, 'datos');
+
+                request.onerror = () => reject();
+                request.onsuccess = () => resolve();
+            });
+        }
+
+        function leerDeDB(tipo) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([tipo], 'readonly');
+                const store = transaction.objectStore(tipo);
+                const request = store.get('datos');
+
+                request.onerror = () => reject();
+                request.onsuccess = () => {
+                    resolve(request.result || null);
+                };
+            });
+        }
+
+        // ==================== DATOS ====================
+        let datosInformatica = {};
+        let datosRobotica = {};
+
+        function inicializarDatos() {
+            for (let grado = 1; grado <= 7; grado++) {
+                datosInformatica[grado] = {};
+                datosRobotica[grado] = {};
+                for (let mesa = 1; mesa <= 13; mesa++) {
+                    datosInformatica[grado][mesa] = [];
+                }
+                for (let grupo = 1; grupo <= 10; grupo++) {
+                    datosRobotica[grado][grupo] = { nombre: `Grupo ${grupo}`, alumnos: [] };
+                }
+            }
+        }
+
+        let gradoActual = 'todos';
+        let gradoActualRobotica = 'todos';
+
+        // ==================== FUNCIONES DE ALMACENAMIENTO ====================
+        async function guardarDatos(tipo) {
+            if (tipo === 'informatica') {
+                await guardarEnDB('informatica', datosInformatica);
+            } else {
+                await guardarEnDB('robotica', datosRobotica);
+            }
+        }
+
+        async function cargarDatos() {
+            const datosInfo = await leerDeDB('informatica');
+            const datosRobo = await leerDeDB('robotica');
+
+            if (datosInfo) {
+                datosInformatica = datosInfo;
+            }
+            if (datosRobo) {
+                datosRobotica = datosRobo;
+            }
+
+            renderizarInformatica();
+            renderizarRobotica();
+        }
+
+        // ==================== FUNCIONES DE NAVEGACION ====================
+        function mostrarTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.main-tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function mostrarGrado(grado) {
+            gradoActual = grado;
+            const navTabs = document.querySelectorAll('#informatica .tab-btn');
+            navTabs.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderizarInformatica();
+        }
+
+        function mostrarGradoRobotica(grado) {
+            gradoActualRobotica = grado;
+            const navTabs = document.querySelectorAll('#robotica .tab-btn');
+            navTabs.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderizarRobotica();
+        }
+
+        // ==================== INFORMATICA ====================
+        async function agregarAlumno(mesaNum, grado) {
+            const inputId = `input-${mesaNum}-${grado}`;
+            const input = document.getElementById(inputId);
+
+            if (!input) return;
+
+            const nombre = input.value.trim();
+
+            if (!nombre) {
+                mostrarMensaje('Por favor ingresa un nombre', 'error');
+                return;
+            }
+
+            if (datosInformatica[grado][mesaNum].length >= 3) {
+                mostrarMensaje('Máximo 3 alumnos por mesa', 'error');
+                return;
+            }
+
+            datosInformatica[grado][mesaNum].push(nombre);
+            input.value = '';
+            await guardarDatos('informatica');
+            renderizarInformatica();
+            mostrarMensaje(`${nombre} agregado a la compu ${mesaNum}`, 'exito');
+
+            setTimeout(() => {
+                const newInput = document.getElementById(inputId);
+                if (newInput) newInput.focus();
+            }, 100);
+        }
+
+        async function eliminarAlumno(mesaNum, grado, index) {
+            const nombre = datosInformatica[grado][mesaNum][index];
+            datosInformatica[grado][mesaNum].splice(index, 1);
+            await guardarDatos('informatica');
+            renderizarInformatica();
+            mostrarMensaje(`${nombre} eliminado`, 'exito');
+        }
+
+        function renderizarInformatica() {
+            const container = document.getElementById('contenedor-grados');
+            container.innerHTML = '';
+
+            const gradosAMostrar = gradoActual === 'todos' ? [1, 2, 3, 4, 5, 6, 7] : [parseInt(gradoActual)];
+
+            gradosAMostrar.forEach(grado => {
+                const seccion = document.createElement('div');
+                seccion.className = 'grado-section active';
+
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'grado-header';
+
+                const titulo = document.createElement('h2');
+                titulo.textContent = `Grado ${grado}`;
+
+                const badge = document.createElement('span');
+                badge.className = 'grado-badge';
+                badge.textContent = `${calcularAlumnosPorGradoInfo(grado)} alumnos`;
+
+                headerDiv.appendChild(titulo);
+                headerDiv.appendChild(badge);
+                seccion.appendChild(headerDiv);
+
+                const gridMesas = document.createElement('div');
+                gridMesas.className = 'mesa-grid';
+
+                for (let mesa = 1; mesa <= 13; mesa++) {
+                    const card = document.createElement('div');
+                    card.className = 'mesa-card';
+
+                    const header = document.createElement('div');
+                    header.className = 'mesa-header';
+
+                    const mesaNumero = document.createElement('span');
+                    mesaNumero.className = 'mesa-numero';
+                    mesaNumero.textContent = `Compu ${mesa}`;
+
+                    const contador = document.createElement('span');
+                    contador.className = 'contador-alumnos';
+                    contador.textContent = `${datosInformatica[grado][mesa].length}/3`;
+
+                    header.appendChild(mesaNumero);
+                    header.appendChild(contador);
+                    card.appendChild(header);
+
+                    const alumnosContainer = document.createElement('div');
+                    alumnosContainer.className = 'alumnos-container';
+
+                    datosInformatica[grado][mesa].forEach((alumno, idx) => {
+                        const item = document.createElement('div');
+                        item.className = 'alumno-item';
+
+                        const nombre = document.createElement('span');
+                        nombre.className = 'alumno-nombre';
+                        nombre.textContent = alumno;
+
+                        const btnEliminar = document.createElement('button');
+                        btnEliminar.className = 'btn-eliminar';
+                        btnEliminar.textContent = '✕';
+                        btnEliminar.onclick = function (e) {
+                            e.preventDefault();
+                            eliminarAlumno(mesa, grado, idx);
+                        };
+
+                        item.appendChild(nombre);
+                        item.appendChild(btnEliminar);
+                        alumnosContainer.appendChild(item);
+                    });
+
+                    card.appendChild(alumnosContainer);
+
+                    if (datosInformatica[grado][mesa].length < 3) {
+                        const inputGroup = document.createElement('div');
+                        inputGroup.className = 'input-group';
+
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.className = 'alumno-input';
+                        input.id = `input-${mesa}-${grado}`;
+                        input.placeholder = 'Nombre alumno';
+                        input.onkeypress = function (e) {
+                            if (e.key === 'Enter') agregarAlumno(mesa, grado);
+                        };
+
+                        const btnAgregar = document.createElement('button');
+                        btnAgregar.type = 'button';
+                        btnAgregar.className = 'btn-agregar';
+                        btnAgregar.textContent = '+';
+                        btnAgregar.onclick = function (e) {
+                            e.preventDefault();
+                            agregarAlumno(mesa, grado);
+                        };
+
+                        inputGroup.appendChild(input);
+                        inputGroup.appendChild(btnAgregar);
+                        card.appendChild(inputGroup);
+                    }
+
+                    gridMesas.appendChild(card);
+                }
+
+                seccion.appendChild(gridMesas);
+                container.appendChild(seccion);
+            });
+        }
+
+        function calcularAlumnosPorGradoInfo(grado) {
+            let total = 0;
+            for (let mesa = 1; mesa <= 13; mesa++) {
+                total += datosInformatica[grado][mesa].length;
+            }
+            return total;
+        }
+
+        // ==================== ROBOTICA ====================
+        async function agregarAlumnoGrupo(grupoNum, grado) {
+            const inputId = `input-grupo-${grupoNum}-${grado}`;
+            const input = document.getElementById(inputId);
+
+            if (!input) return;
+
+            const nombre = input.value.trim();
+
+            if (!nombre) {
+                mostrarMensaje('Por favor ingresa un nombre', 'error');
+                return;
+            }
+
+            datosRobotica[grado][grupoNum].alumnos.push(nombre);
+            input.value = '';
+            await guardarDatos('robotica');
+            renderizarRobotica();
+            mostrarMensaje(`${nombre} agregado al ${datosRobotica[grado][grupoNum].nombre}`, 'exito');
+
+            setTimeout(() => {
+                const newInput = document.getElementById(inputId);
+                if (newInput) newInput.focus();
+            }, 100);
+        }
+
+        async function eliminarAlumnoGrupo(grupoNum, grado, index) {
+            const nombre = datosRobotica[grado][grupoNum].alumnos[index];
+            datosRobotica[grado][grupoNum].alumnos.splice(index, 1);
+            await guardarDatos('robotica');
+            renderizarRobotica();
+            mostrarMensaje(`${nombre} eliminado`, 'exito');
+        }
+
+        async function cambiarNombreGrupo(grupoNum, grado) {
+            const inputId = `nombre-grupo-${grupoNum}-${grado}`;
+            const input = document.getElementById(inputId);
+
+            if (!input) return;
+
+            const nuevoNombre = input.value.trim();
+
+            if (!nuevoNombre) {
+                mostrarMensaje('Por favor ingresa un nombre para el grupo', 'error');
+                return;
+            }
+
+            datosRobotica[grado][grupoNum].nombre = nuevoNombre;
+            await guardarDatos('robotica');
+            renderizarRobotica();
+            mostrarMensaje(`Grupo renombrado a "${nuevoNombre}"`, 'exito');
+        }
+
+        function renderizarRobotica() {
+            const container = document.getElementById('contenedor-grupos');
+            container.innerHTML = '';
+
+            const gradosAMostrar = gradoActualRobotica === 'todos' ? [1, 2, 3, 4, 5, 6, 7] : [parseInt(gradoActualRobotica)];
+
+            gradosAMostrar.forEach(grado => {
+                const seccion = document.createElement('div');
+                seccion.className = 'grado-section active';
+
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'grado-header';
+
+                const titulo = document.createElement('h2');
+                titulo.textContent = `Grado ${grado}`;
+
+                const badge = document.createElement('span');
+                badge.className = 'grado-badge';
+                badge.textContent = `${calcularAlumnosPorGradoRobo(grado)} alumnos`;
+
+                headerDiv.appendChild(titulo);
+                headerDiv.appendChild(badge);
+                seccion.appendChild(headerDiv);
+
+                const gridGrupos = document.createElement('div');
+                gridGrupos.className = 'grupos-grid';
+
+                for (let grupo = 1; grupo <= 10; grupo++) {
+                    const card = document.createElement('div');
+                    card.className = 'grupo-card';
+
+                    const header = document.createElement('div');
+                    header.className = 'grupo-header';
+
+                    const nombreInput = document.createElement('input');
+                    nombreInput.type = 'text';
+                    nombreInput.className = 'grupo-nombre-input';
+                    nombreInput.id = `nombre-grupo-${grupo}-${grado}`;
+                    nombreInput.value = datosRobotica[grado][grupo].nombre;
+                    nombreInput.onkeypress = function (e) {
+                        if (e.key === 'Enter') cambiarNombreGrupo(grupo, grado);
+                    };
+
+                    const contador = document.createElement('span');
+                    contador.className = 'contador-grupo';
+                    contador.textContent = datosRobotica[grado][grupo].alumnos.length;
+
+                    header.appendChild(nombreInput);
+                    header.appendChild(contador);
+                    card.appendChild(header);
+
+                    const alumnosContainer = document.createElement('div');
+                    alumnosContainer.className = 'alumnos-container';
+
+                    datosRobotica[grado][grupo].alumnos.forEach((alumno, idx) => {
+                        const item = document.createElement('div');
+                        item.className = 'alumno-item';
+
+                        const nombre = document.createElement('span');
+                        nombre.className = 'alumno-nombre';
+                        nombre.textContent = alumno;
+
+                        const btnEliminar = document.createElement('button');
+                        btnEliminar.className = 'btn-eliminar';
+                        btnEliminar.textContent = '✕';
+                        btnEliminar.onclick = function (e) {
+                            e.preventDefault();
+                            eliminarAlumnoGrupo(grupo, grado, idx);
+                        };
+
+                        item.appendChild(nombre);
+                        item.appendChild(btnEliminar);
+                        alumnosContainer.appendChild(item);
+                    });
+
+                    card.appendChild(alumnosContainer);
+
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'alumno-input';
+                    input.id = `input-grupo-${grupo}-${grado}`;
+                    input.placeholder = 'Nombre alumno';
+                    input.onkeypress = function (e) {
+                        if (e.key === 'Enter') agregarAlumnoGrupo(grupo, grado);
+                    };
+
+                    const btnAgregar = document.createElement('button');
+                    btnAgregar.type = 'button';
+                    btnAgregar.className = 'btn-agregar-grupo';
+                    btnAgregar.textContent = '+';
+                    btnAgregar.onclick = function (e) {
+                        e.preventDefault();
+                        agregarAlumnoGrupo(grupo, grado);
+                    };
+
+                    inputGroup.appendChild(input);
+                    inputGroup.appendChild(btnAgregar);
+                    card.appendChild(inputGroup);
+
+                    gridGrupos.appendChild(card);
+                }
+
+                seccion.appendChild(gridGrupos);
+                container.appendChild(seccion);
+            });
+        }
+
+        function calcularAlumnosPorGradoRobo(grado) {
+            let total = 0;
+            for (let grupo = 1; grupo <= 10; grupo++) {
+                total += datosRobotica[grado][grupo].alumnos.length;
+            }
+            return total;
+        }
+
+        // ==================== DESCARGAS Y LIMPIEZA ====================
+        function descargarJSON(tipo) {
+            const datos = tipo === 'informatica' ? datosInformatica : datosRobotica;
+            const dataStr = JSON.stringify(datos, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `gestor_${tipo}_insc_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            mostrarMensaje('Datos descargados exitosamente', 'exito');
+        }
+
+        async function limpiarTodo(tipo) {
+            if (confirm(`¿Estás seguro de que deseas limpiar todos los datos de ${tipo}? Esta acción no se puede deshacer.`)) {
+                if (tipo === 'informatica') {
+                    for (let grado = 1; grado <= 7; grado++) {
+                        for (let mesa = 1; mesa <= 13; mesa++) {
+                            datosInformatica[grado][mesa] = [];
+                        }
+                    }
+                    await guardarDatos('informatica');
+                    renderizarInformatica();
+                } else {
+                    for (let grado = 1; grado <= 7; grado++) {
+                        for (let grupo = 1; grupo <= 10; grupo++) {
+                            datosRobotica[grado][grupo].alumnos = [];
+                        }
+                    }
+                    await guardarDatos('robotica');
+                    renderizarRobotica();
+                }
+                mostrarMensaje('Todos los datos han sido eliminados', 'exito');
+            }
+        }
+
+        // ==================== UTILIDADES ====================
+        function mostrarMensaje(texto, tipo = 'info') {
+            const mensaje = document.getElementById('mensaje');
+            mensaje.textContent = texto;
+            mensaje.className = `mensaje visible ${tipo}`;
+            setTimeout(() => {
+                mensaje.classList.remove('visible');
+            }, 3000);
+        }
+
+        // ==================== INICIALIZACION ====================
+        window.addEventListener('DOMContentLoaded', () => {
+            inicializarDatos();
+            cargarLogo();
+            inicializarDB();
+        });
+    </script>
+</body>
+
+</html>
