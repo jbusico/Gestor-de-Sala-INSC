@@ -26,7 +26,7 @@
             margin: 0 auto;
         }
 
-        /* HEADER CON LOGO */
+        /* HEADER */
         .header {
             background: linear-gradient(135deg, #1e3a5f 0%, #c41e3a 100%);
             border-radius: 15px;
@@ -67,15 +67,8 @@
         }
 
         @keyframes floatLogo {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-8px);
-            }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
         }
 
         .header-content h1 {
@@ -92,7 +85,7 @@
             font-weight: 400;
         }
 
-        /* TABS PRINCIPALES */
+        /* TABS PRINCIPALES (Primaria / Secundaria) */
         .main-tabs {
             display: flex;
             gap: 10px;
@@ -105,12 +98,12 @@
         }
 
         .main-tab-btn {
-            padding: 12px 24px;
+            padding: 12px 28px;
             border: 2px solid #ddd;
             background: white;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             font-family: 'Raleway', sans-serif;
             transition: all 0.3s ease;
@@ -131,29 +124,78 @@
             box-shadow: 0 6px 16px rgba(196, 30, 58, 0.3);
         }
 
-        /* CONTENEDOR DE TABS */
-        .tab-content {
+        /* NIVEL CONTENT */
+        .nivel-content {
             display: none;
         }
 
-        .tab-content.active {
+        .nivel-content.active {
             display: block;
         }
 
-        /* TABS DE NAVEGACION SECUNDARIAS */
-        .nav-tabs {
+        /* TABS DE SECCION (Informatica / Robotica) */
+        .seccion-tabs {
             display: flex;
             gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-top: 3px solid #1e3a5f;
+        }
+
+        .seccion-tab-btn {
+            padding: 10px 22px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Raleway', sans-serif;
+            transition: all 0.3s ease;
+            color: #1a2a3a;
+        }
+
+        .seccion-tab-btn:hover {
+            border-color: #1e3a5f;
+            color: #1e3a5f;
+            transform: translateY(-2px);
+        }
+
+        .seccion-tab-btn.active {
+            background: #1e3a5f;
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+        }
+
+        /* SECCION CONTENT */
+        .seccion-content {
+            display: none;
+        }
+
+        .seccion-content.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+
+        /* TABS DE GRADO/AÑO */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
             margin-bottom: 25px;
             flex-wrap: wrap;
             background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
 
         .tab-btn {
-            padding: 10px 18px;
+            padding: 9px 16px;
             border: 2px solid #ddd;
             background: white;
             border-radius: 8px;
@@ -176,7 +218,7 @@
             background: linear-gradient(135deg, #1e3a5f 0%, #c41e3a 100%);
             color: white;
             border-color: transparent;
-            box-shadow: 0 6px 16px rgba(196, 30, 58, 0.3);
+            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.25);
         }
 
         /* SECCIONES DE GRADO */
@@ -187,24 +229,12 @@
             margin-bottom: 25px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-left: 5px solid #c41e3a;
-            display: none;
             animation: fadeIn 0.3s ease;
         }
 
-        .grado-section.active {
-            display: block;
-        }
-
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .grado-header {
@@ -225,7 +255,7 @@
         .grado-badge {
             background: linear-gradient(135deg, #1e3a5f 0%, #c41e3a 100%);
             color: white;
-            padding: 6px 12px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
@@ -244,7 +274,6 @@
             border-radius: 10px;
             padding: 16px;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .mesa-card:hover {
@@ -305,13 +334,7 @@
             margin-bottom: 14px;
             padding-bottom: 10px;
             border-bottom: 2px solid #e8e8e8;
-        }
-
-        .grupo-nombre {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a2a3a;
-            flex: 1;
+            gap: 8px;
         }
 
         .grupo-nombre-input {
@@ -322,6 +345,7 @@
             font-family: 'Raleway', sans-serif;
             flex: 1;
             color: #1a2a3a;
+            font-weight: 600;
         }
 
         .grupo-nombre-input:focus {
@@ -337,10 +361,11 @@
             border-radius: 15px;
             font-size: 12px;
             font-weight: 600;
+            flex-shrink: 0;
         }
 
         .alumnos-container {
-            min-height: 80px;
+            min-height: 60px;
             margin-bottom: 12px;
         }
 
@@ -419,25 +444,17 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 18px;
             font-family: 'Raleway', sans-serif;
             transition: all 0.2s ease;
             box-shadow: 0 4px 8px rgba(196, 30, 58, 0.2);
+            line-height: 1;
         }
 
         .btn-agregar:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(196, 30, 58, 0.3);
-        }
-
-        .btn-agregar:active {
-            transform: translateY(0);
-        }
-
-        .btn-agregar:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         .btn-agregar-grupo {
@@ -447,11 +464,12 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 18px;
             font-family: 'Raleway', sans-serif;
             transition: all 0.2s ease;
             box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
+            line-height: 1;
         }
 
         .btn-agregar-grupo:hover {
@@ -459,7 +477,7 @@
             box-shadow: 0 6px 12px rgba(39, 174, 96, 0.3);
         }
 
-        /* BOTONES DE ACCION GENERALES */
+        /* BOTONES DE ACCION */
         .action-buttons {
             display: flex;
             gap: 12px;
@@ -504,40 +522,6 @@
             font-size: 12px;
         }
 
-        .footer a {
-            color: #c41e3a;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px;
-            }
-
-            .header-content h1 {
-                font-size: 22px;
-            }
-
-            .mesa-grid,
-            .grupos-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-tabs,
-            .main-tabs {
-                flex-direction: column;
-            }
-
-            .tab-btn,
-            .main-tab-btn {
-                width: 100%;
-            }
-        }
-
         /* MENSAJE DE ESTADO */
         .mensaje {
             position: fixed;
@@ -552,6 +536,7 @@
             animation: slideIn 0.3s ease;
             display: none;
             max-width: 300px;
+            font-weight: 500;
         }
 
         .mensaje.visible {
@@ -559,37 +544,42 @@
         }
 
         @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        .mensaje.exito {
-            border-left-color: #27ae60;
-            color: #27ae60;
-        }
+        .mensaje.exito { border-left-color: #27ae60; color: #27ae60; }
+        .mensaje.error { border-left-color: #e74c3c; color: #e74c3c; }
 
-        .mensaje.error {
-            border-left-color: #e74c3c;
-            color: #e74c3c;
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .header-content h1 { font-size: 22px; }
+
+            .mesa-grid, .grupos-grid { grid-template-columns: 1fr; }
+
+            .nav-tabs, .main-tabs, .seccion-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn, .main-tab-btn, .seccion-tab-btn { width: 100%; }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <!-- HEADER CON LOGO -->
+
+        <!-- HEADER -->
         <div class="header">
             <div class="logo-section" id="logoSection">
                 <img id="logoImg" src="" alt="Logo Instituto Nuestra Señora del Carmen" style="display:none;">
-                <div id="logoPlaceholder" class="sin-imagen">Logo no encontrado<br><small>Coloca el archivo de imagen en
-                        la misma carpeta</small></div>
+                <div id="logoPlaceholder" class="sin-imagen">Logo no<br>encontrado</div>
             </div>
             <div class="header-content">
                 <h1>Gestor de Sala - Instituto Nuestra Señora del Carmen</h1>
@@ -597,107 +587,149 @@
             </div>
         </div>
 
-        <!-- TABS PRINCIPALES -->
+        <!-- TABS NIVEL: Primaria / Secundaria -->
         <div class="main-tabs">
-            <button class="main-tab-btn active" onclick="mostrarTab('informatica')">💻 Sala de Informática</button>
-            <button class="main-tab-btn" onclick="mostrarTab('robotica')">🤖 Grupos de Robótica</button>
+            <button class="main-tab-btn active" onclick="mostrarNivel('primaria', event)">📚 Primaria</button>
+            <button class="main-tab-btn" onclick="mostrarNivel('secundaria', event)">🎓 Secundaria</button>
         </div>
 
-        <!-- TAB INFORMATICA -->
-        <div id="informatica" class="tab-content active">
-            <!-- NAVEGACION POR GRADO -->
-            <div class="nav-tabs">
-                <button class="tab-btn active" onclick="mostrarGrado('todos')">📚 Todos los grados</button>
-                <button class="tab-btn" onclick="mostrarGrado('1')">1º Grado</button>
-                <button class="tab-btn" onclick="mostrarGrado('2')">2º Grado</button>
-                <button class="tab-btn" onclick="mostrarGrado('3')">3º Grado</button>
-                <button class="tab-btn" onclick="mostrarGrado('4')">4º Grado</button>
-                <button class="tab-btn" onclick="mostrarGrado('5')">5º Grado</button>
-                <button class="tab-btn" onclick="mostrarGrado('6')">6º Grado</button>
-                <button class="tab-btn" onclick="mostrarGrado('7')">7º Grado</button>
+        <!-- NIVEL PRIMARIA -->
+        <div id="nivel-primaria" class="nivel-content active">
+            <div class="seccion-tabs">
+                <button class="seccion-tab-btn active" onclick="mostrarSeccion('primaria', 'informatica', event)">💻 Informática</button>
+                <button class="seccion-tab-btn" onclick="mostrarSeccion('primaria', 'robotica', event)">🤖 Robótica</button>
             </div>
-
-            <!-- CONTENEDOR DE GRADOS -->
-            <div id="contenedor-grados"></div>
-
-            <!-- BOTONES DE ACCION -->
-            <div class="action-buttons">
-                <button class="btn-general btn-descargar" onclick="descargarJSON('informatica')">💾 Descargar
-                    datos</button>
-                <button class="btn-general btn-limpiar" onclick="limpiarTodo('informatica')">🗑️ Limpiar todo</button>
+            <div id="primaria-informatica" class="seccion-content active">
+                <div class="nav-tabs" id="nav-primaria-informatica"></div>
+                <div id="cont-primaria-informatica"></div>
+            </div>
+            <div id="primaria-robotica" class="seccion-content">
+                <div class="nav-tabs" id="nav-primaria-robotica"></div>
+                <div id="cont-primaria-robotica"></div>
             </div>
         </div>
 
-        <!-- TAB ROBOTICA -->
-        <div id="robotica" class="tab-content">
-            <!-- NAVEGACION POR GRADO ROBOTICA -->
-            <div class="nav-tabs">
-                <button class="tab-btn active" onclick="mostrarGradoRobotica('todos')">📚 Todos los grados</button>
-                <button class="tab-btn" onclick="mostrarGradoRobotica('1')">1º Grado</button>
-                <button class="tab-btn" onclick="mostrarGradoRobotica('2')">2º Grado</button>
-                <button class="tab-btn" onclick="mostrarGradoRobotica('3')">3º Grado</button>
-                <button class="tab-btn" onclick="mostrarGradoRobotica('4')">4º Grado</button>
-                <button class="tab-btn" onclick="mostrarGradoRobotica('5')">5º Grado</button>
-                <button class="tab-btn" onclick="mostrarGradoRobotica('6')">6º Grado</button>
-                <button class="tab-btn" onclick="mostrarGradoRobotica('7')">7º Grado</button>
+        <!-- NIVEL SECUNDARIA -->
+        <div id="nivel-secundaria" class="nivel-content">
+            <div class="seccion-tabs">
+                <button class="seccion-tab-btn active" onclick="mostrarSeccion('secundaria', 'informatica', event)">💻 Informática</button>
+                <button class="seccion-tab-btn" onclick="mostrarSeccion('secundaria', 'robotica', event)">🤖 Robótica</button>
             </div>
-
-            <!-- CONTENEDOR DE GRUPOS -->
-            <div id="contenedor-grupos"></div>
-
-            <!-- BOTONES DE ACCION ROBOTICA -->
-            <div class="action-buttons">
-                <button class="btn-general btn-descargar" onclick="descargarJSON('robotica')">💾 Descargar
-                    datos</button>
-                <button class="btn-general btn-limpiar" onclick="limpiarTodo('robotica')">🗑️ Limpiar todo</button>
+            <div id="secundaria-informatica" class="seccion-content active">
+                <div class="nav-tabs" id="nav-secundaria-informatica"></div>
+                <div id="cont-secundaria-informatica"></div>
+            </div>
+            <div id="secundaria-robotica" class="seccion-content">
+                <div class="nav-tabs" id="nav-secundaria-robotica"></div>
+                <div id="cont-secundaria-robotica"></div>
             </div>
         </div>
 
-        <!-- FOOTER -->
+        <!-- BOTONES DE ACCION -->
+        <div class="action-buttons">
+            <button class="btn-general btn-descargar" onclick="descargarDatos()">💾 Descargar todos los datos</button>
+            <button class="btn-general btn-limpiar" onclick="limpiarSeccionActual()">🗑️ Limpiar sección actual</button>
+        </div>
+
         <div class="footer">
-            <p>Gestor de Sala © 2024 - Instituto Nuestra Señora del Carmen | Hecho con ❤️ para docentes</p>
+            <p>Gestor de Sala © 2025 - Instituto Nuestra Señora del Carmen | Hecho con ❤️ para docentes</p>
         </div>
     </div>
 
-    <!-- MENSAJE DE ESTADO -->
     <div class="mensaje" id="mensaje"></div>
 
     <script>
-        // ==================== CARGAR LOGO ====================
-        function cargarLogo() {
-            const logoImg = document.getElementById('logoImg');
-            const logoPlaceholder = document.getElementById('logoPlaceholder');
+        // ==================== DATOS ====================
+        let datosInformatica = { primaria: {}, secundaria: {} };
+        let datosRobotica = { primaria: {}, secundaria: {} };
 
-            // Intentar cargar la imagen
-            logoImg.onload = function () {
-                logoPlaceholder.style.display = 'none';
-                logoImg.style.display = 'block';
-            };
-
-            logoImg.onerror = function () {
-                logoPlaceholder.style.display = 'block';
-                logoImg.style.display = 'none';
-            };
-
-            // Intenta cargar desde diferentes nombres comunes
-            const posiblesNombres = [
-                'LOGO_CARMEN_-_ESCUDO.jpg',
-                'logo.jpg',
-                'logo.png',
-                'LOGO.jpg',
-                'LOGO.png',
-                'escudo.jpg',
-                'escudo.png'
-            ];
-
-            function intentarCargar(index) {
-                if (index < posiblesNombres.length) {
-                    logoImg.src = posiblesNombres[index];
+        function inicializarDatos() {
+            for (let g = 1; g <= 7; g++) {
+                if (!datosInformatica.primaria[g]) {
+                    datosInformatica.primaria[g] = {};
+                    for (let m = 1; m <= 13; m++) datosInformatica.primaria[g][m] = [];
+                }
+                if (!datosRobotica.primaria[g]) {
+                    datosRobotica.primaria[g] = {};
+                    for (let gr = 1; gr <= 10; gr++) datosRobotica.primaria[g][gr] = { nombre: `Grupo ${gr}`, alumnos: [] };
                 }
             }
+            for (let a = 1; a <= 5; a++) {
+                if (!datosInformatica.secundaria[a]) {
+                    datosInformatica.secundaria[a] = {};
+                    for (let m = 1; m <= 13; m++) datosInformatica.secundaria[a][m] = [];
+                }
+                if (!datosRobotica.secundaria[a]) {
+                    datosRobotica.secundaria[a] = {};
+                    for (let gr = 1; gr <= 10; gr++) datosRobotica.secundaria[a][gr] = { nombre: `Grupo ${gr}`, alumnos: [] };
+                }
+            }
+        }
 
-            // Comienza con el nombre exacto
-            logoImg.src = 'C:\Users\julia\OneDrive\Escritorio\Grupos Informática-Robótica';
+        // ==================== ESTADO DE NAVEGACION ====================
+        let nivelActual = 'primaria';
+        let seccionActual = { primaria: 'informatica', secundaria: 'informatica' };
+        let gradoActual = {
+            'primaria-informatica': 'todos',
+            'primaria-robotica': 'todos',
+            'secundaria-informatica': 'todos',
+            'secundaria-robotica': 'todos'
+        };
+
+        // ==================== NAVEGACION ====================
+        function mostrarNivel(nivel, e) {
+            nivelActual = nivel;
+            document.querySelectorAll('.nivel-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`nivel-${nivel}`).classList.add('active');
+            document.querySelectorAll('.main-tab-btn').forEach(el => el.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+
+        function mostrarSeccion(nivel, seccion, e) {
+            seccionActual[nivel] = seccion;
+            const nivelEl = document.getElementById(`nivel-${nivel}`);
+            nivelEl.querySelectorAll('.seccion-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`${nivel}-${seccion}`).classList.add('active');
+            nivelEl.querySelectorAll(':scope > .seccion-tabs .seccion-tab-btn').forEach(el => el.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+
+        function mostrarGradoCurso(nivel, seccion, gradoCurso, e) {
+            const key = `${nivel}-${seccion}`;
+            gradoActual[key] = gradoCurso;
+            document.querySelectorAll(`#nav-${key} .tab-btn`).forEach(el => el.classList.remove('active'));
+            e.target.classList.add('active');
+            if (seccion === 'informatica') renderizarInformatica(nivel);
+            else renderizarRobotica(nivel);
+        }
+
+        // ==================== CONSTRUIR TABS DE GRADO ====================
+        function buildNavTabs() {
+            const configs = [
+                { nivel: 'primaria', seccion: 'informatica', max: 7, label: 'Grado' },
+                { nivel: 'primaria', seccion: 'robotica', max: 7, label: 'Grado' },
+                { nivel: 'secundaria', seccion: 'informatica', max: 5, label: 'Año' },
+                { nivel: 'secundaria', seccion: 'robotica', max: 5, label: 'Año' },
+            ];
+
+            configs.forEach(({ nivel, seccion, max, label }) => {
+                const navEl = document.getElementById(`nav-${nivel}-${seccion}`);
+                navEl.innerHTML = '';
+
+                const todosBtn = document.createElement('button');
+                todosBtn.className = 'tab-btn active';
+                todosBtn.textContent = `Todos los ${label.toLowerCase()}s`;
+                todosBtn.onclick = (e) => mostrarGradoCurso(nivel, seccion, 'todos', e);
+                navEl.appendChild(todosBtn);
+
+                for (let i = 1; i <= max; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'tab-btn';
+                    btn.textContent = `${i}° ${label}`;
+                    btn.onclick = (e) => mostrarGradoCurso(nivel, seccion, i, e);
+                    navEl.appendChild(btn);
+                }
+            });
         }
 
         // ==================== INDEXEDDB ====================
@@ -705,18 +737,16 @@
 
         function inicializarDB() {
             return new Promise((resolve, reject) => {
-                const request = indexedDB.open('GestorSalaDB', 1);
+                const request = indexedDB.open('GestorSalaDB', 2);
 
                 request.onerror = () => {
-                    console.error('Error al abrir la BD');
+                    console.error('Error al abrir la base de datos');
                     reject();
                 };
 
                 request.onsuccess = () => {
                     db = request.result;
-                    console.log('Base de datos abierta correctamente');
-                    cargarDatos();
-                    resolve();
+                    cargarDatos().then(resolve);
                 };
 
                 request.onupgradeneeded = (event) => {
@@ -733,154 +763,86 @@
 
         function guardarEnDB(tipo, datos) {
             return new Promise((resolve, reject) => {
-                const transaction = db.transaction([tipo], 'readwrite');
-                const store = transaction.objectStore(tipo);
-                const request = store.put(datos, 'datos');
-
-                request.onerror = () => reject();
-                request.onsuccess = () => resolve();
+                const tx = db.transaction([tipo], 'readwrite');
+                const store = tx.objectStore(tipo);
+                const req = store.put(datos, 'datos');
+                req.onsuccess = resolve;
+                tx.onerror = reject;
             });
         }
 
         function leerDeDB(tipo) {
             return new Promise((resolve, reject) => {
-                const transaction = db.transaction([tipo], 'readonly');
-                const store = transaction.objectStore(tipo);
-                const request = store.get('datos');
-
-                request.onerror = () => reject();
-                request.onsuccess = () => {
-                    resolve(request.result || null);
-                };
+                const tx = db.transaction([tipo], 'readonly');
+                const store = tx.objectStore(tipo);
+                const req = store.get('datos');
+                req.onsuccess = () => resolve(req.result || null);
+                req.onerror = reject;
             });
         }
 
-        // ==================== DATOS ====================
-        let datosInformatica = {};
-        let datosRobotica = {};
-
-        function inicializarDatos() {
-            for (let grado = 1; grado <= 7; grado++) {
-                datosInformatica[grado] = {};
-                datosRobotica[grado] = {};
-                for (let mesa = 1; mesa <= 13; mesa++) {
-                    datosInformatica[grado][mesa] = [];
-                }
-                for (let grupo = 1; grupo <= 10; grupo++) {
-                    datosRobotica[grado][grupo] = { nombre: `Grupo ${grupo}`, alumnos: [] };
-                }
-            }
-        }
-
-        let gradoActual = 'todos';
-        let gradoActualRobotica = 'todos';
-
-        // ==================== FUNCIONES DE ALMACENAMIENTO ====================
         async function guardarDatos(tipo) {
-            if (tipo === 'informatica') {
-                await guardarEnDB('informatica', datosInformatica);
-            } else {
-                await guardarEnDB('robotica', datosRobotica);
-            }
+            if (tipo === 'informatica') await guardarEnDB('informatica', datosInformatica);
+            else await guardarEnDB('robotica', datosRobotica);
         }
 
         async function cargarDatos() {
-            const datosInfo = await leerDeDB('informatica');
-            const datosRobo = await leerDeDB('robotica');
+            const [info, robo] = await Promise.all([leerDeDB('informatica'), leerDeDB('robotica')]);
 
-            if (datosInfo) {
-                datosInformatica = datosInfo;
-            }
-            if (datosRobo) {
-                datosRobotica = datosRobo;
-            }
-
-            renderizarInformatica();
-            renderizarRobotica();
-        }
-
-        // ==================== FUNCIONES DE NAVEGACION ====================
-        function mostrarTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.main-tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tab).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        function mostrarGrado(grado) {
-            gradoActual = grado;
-            const navTabs = document.querySelectorAll('#informatica .tab-btn');
-            navTabs.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderizarInformatica();
-        }
-
-        function mostrarGradoRobotica(grado) {
-            gradoActualRobotica = grado;
-            const navTabs = document.querySelectorAll('#robotica .tab-btn');
-            navTabs.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderizarRobotica();
-        }
-
-        // ==================== INFORMATICA ====================
-        async function agregarAlumno(mesaNum, grado) {
-            const inputId = `input-${mesaNum}-${grado}`;
-            const input = document.getElementById(inputId);
-
-            if (!input) return;
-
-            const nombre = input.value.trim();
-
-            if (!nombre) {
-                mostrarMensaje('Por favor ingresa un nombre', 'error');
-                return;
+            if (info) {
+                if (info.primaria) {
+                    datosInformatica = info;
+                } else {
+                    // Migrar formato antiguo a primaria
+                    datosInformatica.primaria = info;
+                }
             }
 
-            if (datosInformatica[grado][mesaNum].length >= 3) {
-                mostrarMensaje('Máximo 3 alumnos por mesa', 'error');
-                return;
+            if (robo) {
+                if (robo.primaria) {
+                    datosRobotica = robo;
+                } else {
+                    datosRobotica.primaria = robo;
+                }
             }
 
-            datosInformatica[grado][mesaNum].push(nombre);
-            input.value = '';
-            await guardarDatos('informatica');
-            renderizarInformatica();
-            mostrarMensaje(`${nombre} agregado a la compu ${mesaNum}`, 'exito');
-
-            setTimeout(() => {
-                const newInput = document.getElementById(inputId);
-                if (newInput) newInput.focus();
-            }, 100);
+            inicializarDatos();
+            renderizarTodo();
         }
 
-        async function eliminarAlumno(mesaNum, grado, index) {
-            const nombre = datosInformatica[grado][mesaNum][index];
-            datosInformatica[grado][mesaNum].splice(index, 1);
-            await guardarDatos('informatica');
-            renderizarInformatica();
-            mostrarMensaje(`${nombre} eliminado`, 'exito');
+        function renderizarTodo() {
+            renderizarInformatica('primaria');
+            renderizarInformatica('secundaria');
+            renderizarRobotica('primaria');
+            renderizarRobotica('secundaria');
         }
 
-        function renderizarInformatica() {
-            const container = document.getElementById('contenedor-grados');
+        // ==================== INFORMATICA - RENDER ====================
+        function renderizarInformatica(nivel) {
+            const key = `${nivel}-informatica`;
+            const container = document.getElementById(`cont-${key}`);
             container.innerHTML = '';
 
-            const gradosAMostrar = gradoActual === 'todos' ? [1, 2, 3, 4, 5, 6, 7] : [parseInt(gradoActual)];
+            const maxGrado = nivel === 'primaria' ? 7 : 5;
+            const sel = gradoActual[key];
+            const gradosAMostrar = sel === 'todos'
+                ? Array.from({ length: maxGrado }, (_, i) => i + 1)
+                : [parseInt(sel)];
+            const labelGrado = nivel === 'primaria' ? 'Grado' : 'Año';
 
             gradosAMostrar.forEach(grado => {
                 const seccion = document.createElement('div');
-                seccion.className = 'grado-section active';
+                seccion.className = 'grado-section';
 
                 const headerDiv = document.createElement('div');
                 headerDiv.className = 'grado-header';
 
                 const titulo = document.createElement('h2');
-                titulo.textContent = `Grado ${grado}`;
+                titulo.textContent = `${grado}° ${labelGrado}`;
 
                 const badge = document.createElement('span');
                 badge.className = 'grado-badge';
-                badge.textContent = `${calcularAlumnosPorGradoInfo(grado)} alumnos`;
+                badge.textContent = `${calcularAlumnosInfo(nivel, grado)} alumnos`;
 
                 headerDiv.appendChild(titulo);
                 headerDiv.appendChild(badge);
@@ -890,78 +852,7 @@
                 gridMesas.className = 'mesa-grid';
 
                 for (let mesa = 1; mesa <= 13; mesa++) {
-                    const card = document.createElement('div');
-                    card.className = 'mesa-card';
-
-                    const header = document.createElement('div');
-                    header.className = 'mesa-header';
-
-                    const mesaNumero = document.createElement('span');
-                    mesaNumero.className = 'mesa-numero';
-                    mesaNumero.textContent = `Compu ${mesa}`;
-
-                    const contador = document.createElement('span');
-                    contador.className = 'contador-alumnos';
-                    contador.textContent = `${datosInformatica[grado][mesa].length}/3`;
-
-                    header.appendChild(mesaNumero);
-                    header.appendChild(contador);
-                    card.appendChild(header);
-
-                    const alumnosContainer = document.createElement('div');
-                    alumnosContainer.className = 'alumnos-container';
-
-                    datosInformatica[grado][mesa].forEach((alumno, idx) => {
-                        const item = document.createElement('div');
-                        item.className = 'alumno-item';
-
-                        const nombre = document.createElement('span');
-                        nombre.className = 'alumno-nombre';
-                        nombre.textContent = alumno;
-
-                        const btnEliminar = document.createElement('button');
-                        btnEliminar.className = 'btn-eliminar';
-                        btnEliminar.textContent = '✕';
-                        btnEliminar.onclick = function (e) {
-                            e.preventDefault();
-                            eliminarAlumno(mesa, grado, idx);
-                        };
-
-                        item.appendChild(nombre);
-                        item.appendChild(btnEliminar);
-                        alumnosContainer.appendChild(item);
-                    });
-
-                    card.appendChild(alumnosContainer);
-
-                    if (datosInformatica[grado][mesa].length < 3) {
-                        const inputGroup = document.createElement('div');
-                        inputGroup.className = 'input-group';
-
-                        const input = document.createElement('input');
-                        input.type = 'text';
-                        input.className = 'alumno-input';
-                        input.id = `input-${mesa}-${grado}`;
-                        input.placeholder = 'Nombre alumno';
-                        input.onkeypress = function (e) {
-                            if (e.key === 'Enter') agregarAlumno(mesa, grado);
-                        };
-
-                        const btnAgregar = document.createElement('button');
-                        btnAgregar.type = 'button';
-                        btnAgregar.className = 'btn-agregar';
-                        btnAgregar.textContent = '+';
-                        btnAgregar.onclick = function (e) {
-                            e.preventDefault();
-                            agregarAlumno(mesa, grado);
-                        };
-
-                        inputGroup.appendChild(input);
-                        inputGroup.appendChild(btnAgregar);
-                        card.appendChild(inputGroup);
-                    }
-
-                    gridMesas.appendChild(card);
+                    gridMesas.appendChild(crearCardMesa(mesa, grado, nivel));
                 }
 
                 seccion.appendChild(gridMesas);
@@ -969,86 +860,115 @@
             });
         }
 
-        function calcularAlumnosPorGradoInfo(grado) {
-            let total = 0;
-            for (let mesa = 1; mesa <= 13; mesa++) {
-                total += datosInformatica[grado][mesa].length;
+        function crearCardMesa(mesa, grado, nivel) {
+            const datos = datosInformatica[nivel][grado];
+            const card = document.createElement('div');
+            card.className = 'mesa-card';
+
+            const header = document.createElement('div');
+            header.className = 'mesa-header';
+
+            const mesaNumero = document.createElement('span');
+            mesaNumero.className = 'mesa-numero';
+            mesaNumero.textContent = `Compu ${mesa}`;
+
+            const contador = document.createElement('span');
+            contador.className = 'contador-alumnos';
+            contador.textContent = `${datos[mesa].length}/3`;
+
+            header.appendChild(mesaNumero);
+            header.appendChild(contador);
+            card.appendChild(header);
+
+            const alumnosContainer = document.createElement('div');
+            alumnosContainer.className = 'alumnos-container';
+
+            datos[mesa].forEach((alumno, idx) => {
+                const item = crearItemAlumno(alumno, () => eliminarAlumno(mesa, grado, nivel, idx));
+                alumnosContainer.appendChild(item);
+            });
+
+            card.appendChild(alumnosContainer);
+
+            if (datos[mesa].length < 3) {
+                const inputId = `input-${nivel}-${grado}-${mesa}`;
+                const inputGroup = crearInputGroup(
+                    inputId,
+                    'Nombre del alumno',
+                    () => agregarAlumno(mesa, grado, nivel),
+                    'btn-agregar'
+                );
+                card.appendChild(inputGroup);
             }
-            return total;
+
+            return card;
         }
 
-        // ==================== ROBOTICA ====================
-        async function agregarAlumnoGrupo(grupoNum, grado) {
-            const inputId = `input-grupo-${grupoNum}-${grado}`;
+        // ==================== INFORMATICA - ACCIONES ====================
+        async function agregarAlumno(mesa, grado, nivel) {
+            const inputId = `input-${nivel}-${grado}-${mesa}`;
             const input = document.getElementById(inputId);
-
             if (!input) return;
 
             const nombre = input.value.trim();
-
-            if (!nombre) {
-                mostrarMensaje('Por favor ingresa un nombre', 'error');
+            if (!nombre) { mostrarMensaje('Por favor ingresá un nombre', 'error'); return; }
+            if (datosInformatica[nivel][grado][mesa].length >= 3) {
+                mostrarMensaje('Máximo 3 alumnos por mesa', 'error');
                 return;
             }
 
-            datosRobotica[grado][grupoNum].alumnos.push(nombre);
+            datosInformatica[nivel][grado][mesa].push(nombre);
             input.value = '';
-            await guardarDatos('robotica');
-            renderizarRobotica();
-            mostrarMensaje(`${nombre} agregado al ${datosRobotica[grado][grupoNum].nombre}`, 'exito');
+            await guardarDatos('informatica');
+            renderizarInformatica(nivel);
+            mostrarMensaje(`${nombre} agregado a Compu ${mesa}`, 'exito');
 
             setTimeout(() => {
                 const newInput = document.getElementById(inputId);
                 if (newInput) newInput.focus();
-            }, 100);
+            }, 50);
         }
 
-        async function eliminarAlumnoGrupo(grupoNum, grado, index) {
-            const nombre = datosRobotica[grado][grupoNum].alumnos[index];
-            datosRobotica[grado][grupoNum].alumnos.splice(index, 1);
-            await guardarDatos('robotica');
-            renderizarRobotica();
+        async function eliminarAlumno(mesa, grado, nivel, idx) {
+            const nombre = datosInformatica[nivel][grado][mesa][idx];
+            datosInformatica[nivel][grado][mesa].splice(idx, 1);
+            await guardarDatos('informatica');
+            renderizarInformatica(nivel);
             mostrarMensaje(`${nombre} eliminado`, 'exito');
         }
 
-        async function cambiarNombreGrupo(grupoNum, grado) {
-            const inputId = `nombre-grupo-${grupoNum}-${grado}`;
-            const input = document.getElementById(inputId);
-
-            if (!input) return;
-
-            const nuevoNombre = input.value.trim();
-
-            if (!nuevoNombre) {
-                mostrarMensaje('Por favor ingresa un nombre para el grupo', 'error');
-                return;
-            }
-
-            datosRobotica[grado][grupoNum].nombre = nuevoNombre;
-            await guardarDatos('robotica');
-            renderizarRobotica();
-            mostrarMensaje(`Grupo renombrado a "${nuevoNombre}"`, 'exito');
+        function calcularAlumnosInfo(nivel, grado) {
+            let total = 0;
+            for (let m = 1; m <= 13; m++) total += datosInformatica[nivel][grado][m].length;
+            return total;
         }
 
-        function renderizarRobotica() {
-            const container = document.getElementById('contenedor-grupos');
+        // ==================== ROBOTICA - RENDER ====================
+        function renderizarRobotica(nivel) {
+            const key = `${nivel}-robotica`;
+            const container = document.getElementById(`cont-${key}`);
             container.innerHTML = '';
 
-            const gradosAMostrar = gradoActualRobotica === 'todos' ? [1, 2, 3, 4, 5, 6, 7] : [parseInt(gradoActualRobotica)];
+            const maxGrado = nivel === 'primaria' ? 7 : 5;
+            const sel = gradoActual[key];
+            const gradosAMostrar = sel === 'todos'
+                ? Array.from({ length: maxGrado }, (_, i) => i + 1)
+                : [parseInt(sel)];
+            const labelGrado = nivel === 'primaria' ? 'Grado' : 'Año';
 
             gradosAMostrar.forEach(grado => {
                 const seccion = document.createElement('div');
-                seccion.className = 'grado-section active';
+                seccion.className = 'grado-section';
 
                 const headerDiv = document.createElement('div');
                 headerDiv.className = 'grado-header';
 
                 const titulo = document.createElement('h2');
-                titulo.textContent = `Grado ${grado}`;
+                titulo.textContent = `${grado}° ${labelGrado}`;
 
                 const badge = document.createElement('span');
                 badge.className = 'grado-badge';
-                badge.textContent = `${calcularAlumnosPorGradoRobo(grado)} alumnos`;
+                badge.textContent = `${calcularAlumnosRobo(nivel, grado)} alumnos`;
 
                 headerDiv.appendChild(titulo);
                 headerDiv.appendChild(badge);
@@ -1058,81 +978,7 @@
                 gridGrupos.className = 'grupos-grid';
 
                 for (let grupo = 1; grupo <= 10; grupo++) {
-                    const card = document.createElement('div');
-                    card.className = 'grupo-card';
-
-                    const header = document.createElement('div');
-                    header.className = 'grupo-header';
-
-                    const nombreInput = document.createElement('input');
-                    nombreInput.type = 'text';
-                    nombreInput.className = 'grupo-nombre-input';
-                    nombreInput.id = `nombre-grupo-${grupo}-${grado}`;
-                    nombreInput.value = datosRobotica[grado][grupo].nombre;
-                    nombreInput.onkeypress = function (e) {
-                        if (e.key === 'Enter') cambiarNombreGrupo(grupo, grado);
-                    };
-
-                    const contador = document.createElement('span');
-                    contador.className = 'contador-grupo';
-                    contador.textContent = datosRobotica[grado][grupo].alumnos.length;
-
-                    header.appendChild(nombreInput);
-                    header.appendChild(contador);
-                    card.appendChild(header);
-
-                    const alumnosContainer = document.createElement('div');
-                    alumnosContainer.className = 'alumnos-container';
-
-                    datosRobotica[grado][grupo].alumnos.forEach((alumno, idx) => {
-                        const item = document.createElement('div');
-                        item.className = 'alumno-item';
-
-                        const nombre = document.createElement('span');
-                        nombre.className = 'alumno-nombre';
-                        nombre.textContent = alumno;
-
-                        const btnEliminar = document.createElement('button');
-                        btnEliminar.className = 'btn-eliminar';
-                        btnEliminar.textContent = '✕';
-                        btnEliminar.onclick = function (e) {
-                            e.preventDefault();
-                            eliminarAlumnoGrupo(grupo, grado, idx);
-                        };
-
-                        item.appendChild(nombre);
-                        item.appendChild(btnEliminar);
-                        alumnosContainer.appendChild(item);
-                    });
-
-                    card.appendChild(alumnosContainer);
-
-                    const inputGroup = document.createElement('div');
-                    inputGroup.className = 'input-group';
-
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.className = 'alumno-input';
-                    input.id = `input-grupo-${grupo}-${grado}`;
-                    input.placeholder = 'Nombre alumno';
-                    input.onkeypress = function (e) {
-                        if (e.key === 'Enter') agregarAlumnoGrupo(grupo, grado);
-                    };
-
-                    const btnAgregar = document.createElement('button');
-                    btnAgregar.type = 'button';
-                    btnAgregar.className = 'btn-agregar-grupo';
-                    btnAgregar.textContent = '+';
-                    btnAgregar.onclick = function (e) {
-                        e.preventDefault();
-                        agregarAlumnoGrupo(grupo, grado);
-                    };
-
-                    inputGroup.appendChild(input);
-                    inputGroup.appendChild(btnAgregar);
-                    card.appendChild(inputGroup);
-
-                    gridGrupos.appendChild(card);
+                    gridGrupos.appendChild(crearCardGrupo(grupo, grado, nivel));
                 }
 
                 seccion.appendChild(gridGrupos);
@@ -1140,63 +986,215 @@
             });
         }
 
-        function calcularAlumnosPorGradoRobo(grado) {
-            let total = 0;
-            for (let grupo = 1; grupo <= 10; grupo++) {
-                total += datosRobotica[grado][grupo].alumnos.length;
+        function crearCardGrupo(grupo, grado, nivel) {
+            const datos = datosRobotica[nivel][grado];
+            const card = document.createElement('div');
+            card.className = 'grupo-card';
+
+            const header = document.createElement('div');
+            header.className = 'grupo-header';
+
+            const nombreInput = document.createElement('input');
+            nombreInput.type = 'text';
+            nombreInput.className = 'grupo-nombre-input';
+            nombreInput.id = `nombre-grupo-${nivel}-${grado}-${grupo}`;
+            nombreInput.value = datos[grupo].nombre;
+            nombreInput.onkeypress = (e) => { if (e.key === 'Enter') nombreInput.blur(); };
+            nombreInput.onblur = () => guardarNombreGrupo(grupo, grado, nivel);
+
+            const contador = document.createElement('span');
+            contador.className = 'contador-grupo';
+            contador.textContent = datos[grupo].alumnos.length;
+
+            header.appendChild(nombreInput);
+            header.appendChild(contador);
+            card.appendChild(header);
+
+            const alumnosContainer = document.createElement('div');
+            alumnosContainer.className = 'alumnos-container';
+
+            datos[grupo].alumnos.forEach((alumno, idx) => {
+                const item = crearItemAlumno(alumno, () => eliminarAlumnoGrupo(grupo, grado, nivel, idx));
+                alumnosContainer.appendChild(item);
+            });
+
+            card.appendChild(alumnosContainer);
+
+            const inputId = `input-grupo-${nivel}-${grado}-${grupo}`;
+            const inputGroup = crearInputGroup(
+                inputId,
+                'Nombre del alumno',
+                () => agregarAlumnoGrupo(grupo, grado, nivel),
+                'btn-agregar-grupo'
+            );
+            card.appendChild(inputGroup);
+
+            return card;
+        }
+
+        // ==================== ROBOTICA - ACCIONES ====================
+        async function agregarAlumnoGrupo(grupo, grado, nivel) {
+            const inputId = `input-grupo-${nivel}-${grado}-${grupo}`;
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            const nombre = input.value.trim();
+            if (!nombre) { mostrarMensaje('Por favor ingresá un nombre', 'error'); return; }
+
+            datosRobotica[nivel][grado][grupo].alumnos.push(nombre);
+            input.value = '';
+            await guardarDatos('robotica');
+            renderizarRobotica(nivel);
+            mostrarMensaje(`${nombre} agregado al grupo`, 'exito');
+
+            setTimeout(() => {
+                const newInput = document.getElementById(inputId);
+                if (newInput) newInput.focus();
+            }, 50);
+        }
+
+        async function eliminarAlumnoGrupo(grupo, grado, nivel, idx) {
+            const nombre = datosRobotica[nivel][grado][grupo].alumnos[idx];
+            datosRobotica[nivel][grado][grupo].alumnos.splice(idx, 1);
+            await guardarDatos('robotica');
+            renderizarRobotica(nivel);
+            mostrarMensaje(`${nombre} eliminado`, 'exito');
+        }
+
+        async function guardarNombreGrupo(grupo, grado, nivel) {
+            const inputId = `nombre-grupo-${nivel}-${grado}-${grupo}`;
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            const nuevoNombre = input.value.trim();
+            if (!nuevoNombre) {
+                input.value = datosRobotica[nivel][grado][grupo].nombre;
+                return;
             }
+
+            if (datosRobotica[nivel][grado][grupo].nombre !== nuevoNombre) {
+                datosRobotica[nivel][grado][grupo].nombre = nuevoNombre;
+                await guardarDatos('robotica');
+                mostrarMensaje(`Grupo renombrado a "${nuevoNombre}"`, 'exito');
+            }
+        }
+
+        function calcularAlumnosRobo(nivel, grado) {
+            let total = 0;
+            for (let g = 1; g <= 10; g++) total += datosRobotica[nivel][grado][g].alumnos.length;
             return total;
         }
 
-        // ==================== DESCARGAS Y LIMPIEZA ====================
-        function descargarJSON(tipo) {
-            const datos = tipo === 'informatica' ? datosInformatica : datosRobotica;
-            const dataStr = JSON.stringify(datos, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `gestor_${tipo}_insc_${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
+        // ==================== HELPERS DOM ====================
+        function crearItemAlumno(nombre, onEliminar) {
+            const item = document.createElement('div');
+            item.className = 'alumno-item';
+
+            const span = document.createElement('span');
+            span.className = 'alumno-nombre';
+            span.textContent = nombre;
+
+            const btn = document.createElement('button');
+            btn.className = 'btn-eliminar';
+            btn.textContent = '✕';
+            btn.onclick = onEliminar;
+
+            item.appendChild(span);
+            item.appendChild(btn);
+            return item;
+        }
+
+        function crearInputGroup(inputId, placeholder, onAgregar, btnClass) {
+            const group = document.createElement('div');
+            group.className = 'input-group';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'alumno-input';
+            input.id = inputId;
+            input.placeholder = placeholder;
+            input.onkeypress = (e) => { if (e.key === 'Enter') onAgregar(); };
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = btnClass;
+            btn.textContent = '+';
+            btn.onclick = onAgregar;
+
+            group.appendChild(input);
+            group.appendChild(btn);
+            return group;
+        }
+
+        // ==================== DESCARGA Y LIMPIEZA ====================
+        function descargarDatos() {
+            const datos = { informatica: datosInformatica, robotica: datosRobotica };
+            const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `gestor_insc_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
             mostrarMensaje('Datos descargados exitosamente', 'exito');
         }
 
-        async function limpiarTodo(tipo) {
-            if (confirm(`¿Estás seguro de que deseas limpiar todos los datos de ${tipo}? Esta acción no se puede deshacer.`)) {
-                if (tipo === 'informatica') {
-                    for (let grado = 1; grado <= 7; grado++) {
-                        for (let mesa = 1; mesa <= 13; mesa++) {
-                            datosInformatica[grado][mesa] = [];
-                        }
-                    }
-                    await guardarDatos('informatica');
-                    renderizarInformatica();
-                } else {
-                    for (let grado = 1; grado <= 7; grado++) {
-                        for (let grupo = 1; grupo <= 10; grupo++) {
-                            datosRobotica[grado][grupo].alumnos = [];
-                        }
-                    }
-                    await guardarDatos('robotica');
-                    renderizarRobotica();
-                }
-                mostrarMensaje('Todos los datos han sido eliminados', 'exito');
+        async function limpiarSeccionActual() {
+            const nivel = nivelActual;
+            const seccion = seccionActual[nivel];
+            const labelNivel = nivel === 'primaria' ? 'Primaria' : 'Secundaria';
+            const labelSec = seccion === 'informatica' ? 'Informática' : 'Robótica';
+
+            if (!confirm(`¿Limpiar todos los datos de ${labelNivel} - ${labelSec}? Esta acción no se puede deshacer.`)) return;
+
+            const maxGrado = nivel === 'primaria' ? 7 : 5;
+
+            if (seccion === 'informatica') {
+                for (let g = 1; g <= maxGrado; g++)
+                    for (let m = 1; m <= 13; m++)
+                        datosInformatica[nivel][g][m] = [];
+                await guardarDatos('informatica');
+                renderizarInformatica(nivel);
+            } else {
+                for (let g = 1; g <= maxGrado; g++)
+                    for (let gr = 1; gr <= 10; gr++)
+                        datosRobotica[nivel][g][gr].alumnos = [];
+                await guardarDatos('robotica');
+                renderizarRobotica(nivel);
             }
+
+            mostrarMensaje(`${labelNivel} - ${labelSec} limpiado`, 'exito');
         }
 
-        // ==================== UTILIDADES ====================
+        // ==================== LOGO ====================
+        function cargarLogo() {
+            const logoImg = document.getElementById('logoImg');
+            const logoPlaceholder = document.getElementById('logoPlaceholder');
+
+            logoImg.onload = () => {
+                logoPlaceholder.style.display = 'none';
+                logoImg.style.display = 'block';
+            };
+
+            logoImg.onerror = () => {
+                logoPlaceholder.style.display = 'flex';
+                logoImg.style.display = 'none';
+            };
+
+            logoImg.src = 'LOGO CARMEN - ESCUDO.jpg';
+        }
+
+        // ==================== MENSAJE ====================
         function mostrarMensaje(texto, tipo = 'info') {
-            const mensaje = document.getElementById('mensaje');
-            mensaje.textContent = texto;
-            mensaje.className = `mensaje visible ${tipo}`;
-            setTimeout(() => {
-                mensaje.classList.remove('visible');
-            }, 3000);
+            const el = document.getElementById('mensaje');
+            el.textContent = texto;
+            el.className = `mensaje visible ${tipo}`;
+            setTimeout(() => el.classList.remove('visible'), 3000);
         }
 
         // ==================== INICIALIZACION ====================
         window.addEventListener('DOMContentLoaded', () => {
             inicializarDatos();
+            buildNavTabs();
             cargarLogo();
             inicializarDB();
         });
