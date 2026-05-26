@@ -631,12 +631,13 @@
     <script>
         // ==================== DATOS ====================
         const CURSOS_SECUNDARIA = [
-            { id: 'taller1',    nombre: 'Taller de Herramientas I' },
-            { id: 'taller2',    nombre: 'Taller de Herramientas II' },
-            { id: 'robotica',   nombre: 'Taller de Robótica' },
-            { id: 'bdd',        nombre: 'Base de Datos' },
-            { id: 'produccion', nombre: 'Proyecto de Producción' },
+            { id: 'taller1',    nombre: 'Taller de Herramientas I',  anio: 1 },
+            { id: 'taller2',    nombre: 'Taller de Herramientas II', anio: 2 },
+            { id: 'robotica',   nombre: 'Taller de Robótica',        anio: 3 },
+            { id: 'bdd',        nombre: 'Base de Datos',             anio: 4 },
+            { id: 'produccion', nombre: 'Proyecto de Producción',    anio: 5 },
         ];
+        const MAX_GRUPOS_SEC = 13;
 
         let datosInformatica = { primaria: {} };
         let datosRobotica    = { primaria: {} };
@@ -655,11 +656,12 @@
             }
             CURSOS_SECUNDARIA.forEach(({ id }) => {
                 if (!datosSecundaria[id]) datosSecundaria[id] = {};
-                for (let a = 1; a <= 5; a++) {
-                    if (!datosSecundaria[id][a]) {
-                        datosSecundaria[id][a] = {};
-                        for (let gr = 1; gr <= 10; gr++) datosSecundaria[id][a][gr] = { nombre: `Grupo ${gr}`, alumnos: [] };
-                    }
+                // Migrar formato viejo (anidado por año) al nuevo (plano)
+                if (datosSecundaria[id][1] && !datosSecundaria[id][1].alumnos) {
+                    datosSecundaria[id] = {};
+                }
+                for (let gr = 1; gr <= MAX_GRUPOS_SEC; gr++) {
+                    if (!datosSecundaria[id][gr]) datosSecundaria[id][gr] = { nombre: `Grupo ${gr}`, alumnos: [] };
                 }
             });
         }
@@ -672,7 +674,6 @@
             'primaria-robotica': 'todos',
         };
         let cursoActualSecundaria = CURSOS_SECUNDARIA[0].id;
-        let anioActualSecundaria  = Object.fromEntries(CURSOS_SECUNDARIA.map(c => [c.id, 'todos']));
 
         // ==================== NAVEGACION ====================
         function mostrarNivel(nivel, e) {
@@ -709,13 +710,6 @@
                 const el = document.getElementById(`sec-${c.id}`);
                 if (el) el.classList.toggle('active', c.id === cursoId);
             });
-        }
-
-        function mostrarAnioSecundaria(cursoId, anio, e) {
-            anioActualSecundaria[cursoId] = anio;
-            document.querySelectorAll(`#nav-sec-${cursoId} .tab-btn`).forEach(el => el.classList.remove('active'));
-            e.target.classList.add('active');
-            renderizarSecundaria(cursoId);
         }
 
         // ==================== CONSTRUIR TABS DE GRADO / SECUNDARIA ====================
@@ -761,26 +755,6 @@
                 const div = document.createElement('div');
                 div.id = `sec-${curso.id}`;
                 div.className = 'seccion-content' + (i === 0 ? ' active' : '');
-
-                const navDiv = document.createElement('div');
-                navDiv.className = 'nav-tabs';
-                navDiv.id = `nav-sec-${curso.id}`;
-
-                const todosBtn = document.createElement('button');
-                todosBtn.className = 'tab-btn active';
-                todosBtn.textContent = 'Todos los años';
-                todosBtn.onclick = (e) => mostrarAnioSecundaria(curso.id, 'todos', e);
-                navDiv.appendChild(todosBtn);
-
-                for (let a = 1; a <= 5; a++) {
-                    const aBtn = document.createElement('button');
-                    aBtn.className = 'tab-btn';
-                    aBtn.textContent = `${a}° Año`;
-                    aBtn.onclick = (e) => mostrarAnioSecundaria(curso.id, a, e);
-                    navDiv.appendChild(aBtn);
-                }
-
-                div.appendChild(navDiv);
 
                 const contDiv = document.createElement('div');
                 contDiv.id = `cont-sec-${curso.id}`;
@@ -1141,41 +1115,38 @@
             if (!container) return;
             container.innerHTML = '';
 
-            const sel = anioActualSecundaria[cursoId];
-            const aniosAMostrar = sel === 'todos' ? [1, 2, 3, 4, 5] : [parseInt(sel)];
+            const curso = CURSOS_SECUNDARIA.find(c => c.id === cursoId);
 
-            aniosAMostrar.forEach(anio => {
-                const seccion = document.createElement('div');
-                seccion.className = 'grado-section';
+            const seccion = document.createElement('div');
+            seccion.className = 'grado-section';
 
-                const headerDiv = document.createElement('div');
-                headerDiv.className = 'grado-header';
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'grado-header';
 
-                const titulo = document.createElement('h2');
-                titulo.textContent = `${anio}° Año`;
+            const titulo = document.createElement('h2');
+            titulo.textContent = `${curso.anio}° Año`;
 
-                const badge = document.createElement('span');
-                badge.className = 'grado-badge';
-                badge.textContent = `${calcularAlumnosSec(cursoId, anio)} alumnos`;
+            const badge = document.createElement('span');
+            badge.className = 'grado-badge';
+            badge.textContent = `${calcularAlumnosSec(cursoId)} alumnos`;
 
-                headerDiv.appendChild(titulo);
-                headerDiv.appendChild(badge);
-                seccion.appendChild(headerDiv);
+            headerDiv.appendChild(titulo);
+            headerDiv.appendChild(badge);
+            seccion.appendChild(headerDiv);
 
-                const gridGrupos = document.createElement('div');
-                gridGrupos.className = 'grupos-grid';
+            const gridGrupos = document.createElement('div');
+            gridGrupos.className = 'grupos-grid';
 
-                for (let grupo = 1; grupo <= 10; grupo++) {
-                    gridGrupos.appendChild(crearCardGrupoSec(grupo, anio, cursoId));
-                }
+            for (let grupo = 1; grupo <= MAX_GRUPOS_SEC; grupo++) {
+                gridGrupos.appendChild(crearCardGrupoSec(grupo, cursoId));
+            }
 
-                seccion.appendChild(gridGrupos);
-                container.appendChild(seccion);
-            });
+            seccion.appendChild(gridGrupos);
+            container.appendChild(seccion);
         }
 
-        function crearCardGrupoSec(grupo, anio, cursoId) {
-            const datos = datosSecundaria[cursoId][anio];
+        function crearCardGrupoSec(grupo, cursoId) {
+            const datos = datosSecundaria[cursoId];
             const card = document.createElement('div');
             card.className = 'grupo-card';
 
@@ -1185,10 +1156,10 @@
             const nombreInput = document.createElement('input');
             nombreInput.type = 'text';
             nombreInput.className = 'grupo-nombre-input';
-            nombreInput.id = `nombre-sec-${cursoId}-${anio}-${grupo}`;
+            nombreInput.id = `nombre-sec-${cursoId}-${grupo}`;
             nombreInput.value = datos[grupo].nombre;
             nombreInput.onkeypress = (e) => { if (e.key === 'Enter') nombreInput.blur(); };
-            nombreInput.onblur = () => guardarNombreGrupoSec(grupo, anio, cursoId);
+            nombreInput.onblur = () => guardarNombreGrupoSec(grupo, cursoId);
 
             const contador = document.createElement('span');
             contador.className = 'contador-grupo';
@@ -1202,28 +1173,28 @@
             alumnosContainer.className = 'alumnos-container';
 
             datos[grupo].alumnos.forEach((alumno, idx) => {
-                const item = crearItemAlumno(alumno, () => eliminarAlumnoSec(grupo, anio, cursoId, idx));
+                const item = crearItemAlumno(alumno, () => eliminarAlumnoSec(grupo, cursoId, idx));
                 alumnosContainer.appendChild(item);
             });
 
             card.appendChild(alumnosContainer);
 
-            const inputId = `input-sec-${cursoId}-${anio}-${grupo}`;
-            card.appendChild(crearInputGroup(inputId, 'Nombre del alumno', () => agregarAlumnoSec(grupo, anio, cursoId), 'btn-agregar-grupo'));
+            const inputId = `input-sec-${cursoId}-${grupo}`;
+            card.appendChild(crearInputGroup(inputId, 'Nombre del alumno', () => agregarAlumnoSec(grupo, cursoId), 'btn-agregar-grupo'));
 
             return card;
         }
 
         // ==================== SECUNDARIA - ACCIONES ====================
-        async function agregarAlumnoSec(grupo, anio, cursoId) {
-            const inputId = `input-sec-${cursoId}-${anio}-${grupo}`;
+        async function agregarAlumnoSec(grupo, cursoId) {
+            const inputId = `input-sec-${cursoId}-${grupo}`;
             const input = document.getElementById(inputId);
             if (!input) return;
 
             const nombre = input.value.trim();
             if (!nombre) { mostrarMensaje('Por favor ingresá un nombre', 'error'); return; }
 
-            datosSecundaria[cursoId][anio][grupo].alumnos.push(nombre);
+            datosSecundaria[cursoId][grupo].alumnos.push(nombre);
             input.value = '';
             await guardarDatos('secundaria');
             renderizarSecundaria(cursoId);
@@ -1235,32 +1206,32 @@
             }, 50);
         }
 
-        async function eliminarAlumnoSec(grupo, anio, cursoId, idx) {
-            const nombre = datosSecundaria[cursoId][anio][grupo].alumnos[idx];
-            datosSecundaria[cursoId][anio][grupo].alumnos.splice(idx, 1);
+        async function eliminarAlumnoSec(grupo, cursoId, idx) {
+            const nombre = datosSecundaria[cursoId][grupo].alumnos[idx];
+            datosSecundaria[cursoId][grupo].alumnos.splice(idx, 1);
             await guardarDatos('secundaria');
             renderizarSecundaria(cursoId);
             mostrarMensaje(`${nombre} eliminado`, 'exito');
         }
 
-        async function guardarNombreGrupoSec(grupo, anio, cursoId) {
-            const inputId = `nombre-sec-${cursoId}-${anio}-${grupo}`;
+        async function guardarNombreGrupoSec(grupo, cursoId) {
+            const inputId = `nombre-sec-${cursoId}-${grupo}`;
             const input = document.getElementById(inputId);
             if (!input) return;
 
             const nuevoNombre = input.value.trim();
-            if (!nuevoNombre) { input.value = datosSecundaria[cursoId][anio][grupo].nombre; return; }
+            if (!nuevoNombre) { input.value = datosSecundaria[cursoId][grupo].nombre; return; }
 
-            if (datosSecundaria[cursoId][anio][grupo].nombre !== nuevoNombre) {
-                datosSecundaria[cursoId][anio][grupo].nombre = nuevoNombre;
+            if (datosSecundaria[cursoId][grupo].nombre !== nuevoNombre) {
+                datosSecundaria[cursoId][grupo].nombre = nuevoNombre;
                 await guardarDatos('secundaria');
                 mostrarMensaje(`Grupo renombrado a "${nuevoNombre}"`, 'exito');
             }
         }
 
-        function calcularAlumnosSec(cursoId, anio) {
+        function calcularAlumnosSec(cursoId) {
             let total = 0;
-            for (let g = 1; g <= 10; g++) total += datosSecundaria[cursoId][anio][g].alumnos.length;
+            for (let g = 1; g <= MAX_GRUPOS_SEC; g++) total += datosSecundaria[cursoId][g].alumnos.length;
             return total;
         }
 
@@ -1321,9 +1292,8 @@
             if (nivelActual === 'secundaria') {
                 const curso = CURSOS_SECUNDARIA.find(c => c.id === cursoActualSecundaria);
                 if (!confirm(`¿Limpiar todos los datos de "${curso.nombre}"? Esta acción no se puede deshacer.`)) return;
-                for (let a = 1; a <= 5; a++)
-                    for (let gr = 1; gr <= 10; gr++)
-                        datosSecundaria[cursoActualSecundaria][a][gr].alumnos = [];
+                for (let gr = 1; gr <= MAX_GRUPOS_SEC; gr++)
+                    datosSecundaria[cursoActualSecundaria][gr].alumnos = [];
                 await guardarDatos('secundaria');
                 renderizarSecundaria(cursoActualSecundaria);
                 mostrarMensaje(`"${curso.nombre}" limpiado`, 'exito');
