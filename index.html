@@ -611,18 +611,8 @@
 
         <!-- NIVEL SECUNDARIA -->
         <div id="nivel-secundaria" class="nivel-content">
-            <div class="seccion-tabs">
-                <button class="seccion-tab-btn active" onclick="mostrarSeccion('secundaria', 'informatica', event)">💻 Informática</button>
-                <button class="seccion-tab-btn" onclick="mostrarSeccion('secundaria', 'robotica', event)">🤖 Robótica</button>
-            </div>
-            <div id="secundaria-informatica" class="seccion-content active">
-                <div class="nav-tabs" id="nav-secundaria-informatica"></div>
-                <div id="cont-secundaria-informatica"></div>
-            </div>
-            <div id="secundaria-robotica" class="seccion-content">
-                <div class="nav-tabs" id="nav-secundaria-robotica"></div>
-                <div id="cont-secundaria-robotica"></div>
-            </div>
+            <div class="seccion-tabs" id="tabs-cursos-sec"></div>
+            <div id="contenedor-secundaria"></div>
         </div>
 
         <!-- BOTONES DE ACCION -->
@@ -640,8 +630,17 @@
 
     <script>
         // ==================== DATOS ====================
-        let datosInformatica = { primaria: {}, secundaria: {} };
-        let datosRobotica = { primaria: {}, secundaria: {} };
+        const CURSOS_SECUNDARIA = [
+            { id: 'taller1',    nombre: 'Taller de Herramientas I' },
+            { id: 'taller2',    nombre: 'Taller de Herramientas II' },
+            { id: 'robotica',   nombre: 'Taller de Robótica' },
+            { id: 'bdd',        nombre: 'Base de Datos' },
+            { id: 'produccion', nombre: 'Proyecto de Producción' },
+        ];
+
+        let datosInformatica = { primaria: {} };
+        let datosRobotica    = { primaria: {} };
+        let datosSecundaria  = {};
 
         function inicializarDatos() {
             for (let g = 1; g <= 7; g++) {
@@ -654,27 +653,26 @@
                     for (let gr = 1; gr <= 10; gr++) datosRobotica.primaria[g][gr] = { nombre: `Grupo ${gr}`, alumnos: [] };
                 }
             }
-            for (let a = 1; a <= 5; a++) {
-                if (!datosInformatica.secundaria[a]) {
-                    datosInformatica.secundaria[a] = {};
-                    for (let m = 1; m <= 13; m++) datosInformatica.secundaria[a][m] = [];
+            CURSOS_SECUNDARIA.forEach(({ id }) => {
+                if (!datosSecundaria[id]) datosSecundaria[id] = {};
+                for (let a = 1; a <= 5; a++) {
+                    if (!datosSecundaria[id][a]) {
+                        datosSecundaria[id][a] = {};
+                        for (let gr = 1; gr <= 10; gr++) datosSecundaria[id][a][gr] = { nombre: `Grupo ${gr}`, alumnos: [] };
+                    }
                 }
-                if (!datosRobotica.secundaria[a]) {
-                    datosRobotica.secundaria[a] = {};
-                    for (let gr = 1; gr <= 10; gr++) datosRobotica.secundaria[a][gr] = { nombre: `Grupo ${gr}`, alumnos: [] };
-                }
-            }
+            });
         }
 
         // ==================== ESTADO DE NAVEGACION ====================
         let nivelActual = 'primaria';
-        let seccionActual = { primaria: 'informatica', secundaria: 'informatica' };
+        let seccionActual = { primaria: 'informatica' };
         let gradoActual = {
             'primaria-informatica': 'todos',
             'primaria-robotica': 'todos',
-            'secundaria-informatica': 'todos',
-            'secundaria-robotica': 'todos'
         };
+        let cursoActualSecundaria = CURSOS_SECUNDARIA[0].id;
+        let anioActualSecundaria  = Object.fromEntries(CURSOS_SECUNDARIA.map(c => [c.id, 'todos']));
 
         // ==================== NAVEGACION ====================
         function mostrarNivel(nivel, e) {
@@ -703,13 +701,28 @@
             else renderizarRobotica(nivel);
         }
 
-        // ==================== CONSTRUIR TABS DE GRADO ====================
+        function mostrarCursoSecundaria(cursoId, e) {
+            cursoActualSecundaria = cursoId;
+            document.querySelectorAll('#tabs-cursos-sec .seccion-tab-btn').forEach(el => el.classList.remove('active'));
+            e.target.classList.add('active');
+            CURSOS_SECUNDARIA.forEach(c => {
+                const el = document.getElementById(`sec-${c.id}`);
+                if (el) el.classList.toggle('active', c.id === cursoId);
+            });
+        }
+
+        function mostrarAnioSecundaria(cursoId, anio, e) {
+            anioActualSecundaria[cursoId] = anio;
+            document.querySelectorAll(`#nav-sec-${cursoId} .tab-btn`).forEach(el => el.classList.remove('active'));
+            e.target.classList.add('active');
+            renderizarSecundaria(cursoId);
+        }
+
+        // ==================== CONSTRUIR TABS DE GRADO / SECUNDARIA ====================
         function buildNavTabs() {
             const configs = [
                 { nivel: 'primaria', seccion: 'informatica', max: 7, label: 'Grado' },
-                { nivel: 'primaria', seccion: 'robotica', max: 7, label: 'Grado' },
-                { nivel: 'secundaria', seccion: 'informatica', max: 5, label: 'Año' },
-                { nivel: 'secundaria', seccion: 'robotica', max: 5, label: 'Año' },
+                { nivel: 'primaria', seccion: 'robotica',    max: 7, label: 'Grado' },
             ];
 
             configs.forEach(({ nivel, seccion, max, label }) => {
@@ -732,12 +745,57 @@
             });
         }
 
+        function buildSecundaria() {
+            const tabsEl = document.getElementById('tabs-cursos-sec');
+            const contEl = document.getElementById('contenedor-secundaria');
+            tabsEl.innerHTML = '';
+            contEl.innerHTML = '';
+
+            CURSOS_SECUNDARIA.forEach((curso, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'seccion-tab-btn' + (i === 0 ? ' active' : '');
+                btn.textContent = curso.nombre;
+                btn.onclick = (e) => mostrarCursoSecundaria(curso.id, e);
+                tabsEl.appendChild(btn);
+
+                const div = document.createElement('div');
+                div.id = `sec-${curso.id}`;
+                div.className = 'seccion-content' + (i === 0 ? ' active' : '');
+
+                const navDiv = document.createElement('div');
+                navDiv.className = 'nav-tabs';
+                navDiv.id = `nav-sec-${curso.id}`;
+
+                const todosBtn = document.createElement('button');
+                todosBtn.className = 'tab-btn active';
+                todosBtn.textContent = 'Todos los años';
+                todosBtn.onclick = (e) => mostrarAnioSecundaria(curso.id, 'todos', e);
+                navDiv.appendChild(todosBtn);
+
+                for (let a = 1; a <= 5; a++) {
+                    const aBtn = document.createElement('button');
+                    aBtn.className = 'tab-btn';
+                    aBtn.textContent = `${a}° Año`;
+                    aBtn.onclick = (e) => mostrarAnioSecundaria(curso.id, a, e);
+                    navDiv.appendChild(aBtn);
+                }
+
+                div.appendChild(navDiv);
+
+                const contDiv = document.createElement('div');
+                contDiv.id = `cont-sec-${curso.id}`;
+                div.appendChild(contDiv);
+
+                contEl.appendChild(div);
+            });
+        }
+
         // ==================== INDEXEDDB ====================
         let db;
 
         function inicializarDB() {
             return new Promise((resolve, reject) => {
-                const request = indexedDB.open('GestorSalaDB', 2);
+                const request = indexedDB.open('GestorSalaDB', 3);
 
                 request.onerror = () => {
                     console.error('Error al abrir la base de datos');
@@ -751,12 +809,9 @@
 
                 request.onupgradeneeded = (event) => {
                     db = event.target.result;
-                    if (!db.objectStoreNames.contains('informatica')) {
-                        db.createObjectStore('informatica');
-                    }
-                    if (!db.objectStoreNames.contains('robotica')) {
-                        db.createObjectStore('robotica');
-                    }
+                    if (!db.objectStoreNames.contains('informatica')) db.createObjectStore('informatica');
+                    if (!db.objectStoreNames.contains('robotica'))    db.createObjectStore('robotica');
+                    if (!db.objectStoreNames.contains('secundaria'))  db.createObjectStore('secundaria');
                 };
             });
         }
@@ -783,27 +838,23 @@
 
         async function guardarDatos(tipo) {
             if (tipo === 'informatica') await guardarEnDB('informatica', datosInformatica);
-            else await guardarEnDB('robotica', datosRobotica);
+            else if (tipo === 'robotica') await guardarEnDB('robotica', datosRobotica);
+            else await guardarEnDB('secundaria', datosSecundaria);
         }
 
         async function cargarDatos() {
-            const [info, robo] = await Promise.all([leerDeDB('informatica'), leerDeDB('robotica')]);
+            const [info, robo, sec] = await Promise.all([
+                leerDeDB('informatica'), leerDeDB('robotica'), leerDeDB('secundaria')
+            ]);
 
             if (info) {
-                if (info.primaria) {
-                    datosInformatica = info;
-                } else {
-                    // Migrar formato antiguo a primaria
-                    datosInformatica.primaria = info;
-                }
+                datosInformatica.primaria = info.primaria || info;
             }
-
             if (robo) {
-                if (robo.primaria) {
-                    datosRobotica = robo;
-                } else {
-                    datosRobotica.primaria = robo;
-                }
+                datosRobotica.primaria = robo.primaria || robo;
+            }
+            if (sec) {
+                datosSecundaria = sec;
             }
 
             inicializarDatos();
@@ -812,9 +863,8 @@
 
         function renderizarTodo() {
             renderizarInformatica('primaria');
-            renderizarInformatica('secundaria');
             renderizarRobotica('primaria');
-            renderizarRobotica('secundaria');
+            CURSOS_SECUNDARIA.forEach(c => renderizarSecundaria(c.id));
         }
 
         // ==================== INFORMATICA - RENDER ====================
@@ -1085,6 +1135,135 @@
             return total;
         }
 
+        // ==================== SECUNDARIA - RENDER ====================
+        function renderizarSecundaria(cursoId) {
+            const container = document.getElementById(`cont-sec-${cursoId}`);
+            if (!container) return;
+            container.innerHTML = '';
+
+            const sel = anioActualSecundaria[cursoId];
+            const aniosAMostrar = sel === 'todos' ? [1, 2, 3, 4, 5] : [parseInt(sel)];
+
+            aniosAMostrar.forEach(anio => {
+                const seccion = document.createElement('div');
+                seccion.className = 'grado-section';
+
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'grado-header';
+
+                const titulo = document.createElement('h2');
+                titulo.textContent = `${anio}° Año`;
+
+                const badge = document.createElement('span');
+                badge.className = 'grado-badge';
+                badge.textContent = `${calcularAlumnosSec(cursoId, anio)} alumnos`;
+
+                headerDiv.appendChild(titulo);
+                headerDiv.appendChild(badge);
+                seccion.appendChild(headerDiv);
+
+                const gridGrupos = document.createElement('div');
+                gridGrupos.className = 'grupos-grid';
+
+                for (let grupo = 1; grupo <= 10; grupo++) {
+                    gridGrupos.appendChild(crearCardGrupoSec(grupo, anio, cursoId));
+                }
+
+                seccion.appendChild(gridGrupos);
+                container.appendChild(seccion);
+            });
+        }
+
+        function crearCardGrupoSec(grupo, anio, cursoId) {
+            const datos = datosSecundaria[cursoId][anio];
+            const card = document.createElement('div');
+            card.className = 'grupo-card';
+
+            const header = document.createElement('div');
+            header.className = 'grupo-header';
+
+            const nombreInput = document.createElement('input');
+            nombreInput.type = 'text';
+            nombreInput.className = 'grupo-nombre-input';
+            nombreInput.id = `nombre-sec-${cursoId}-${anio}-${grupo}`;
+            nombreInput.value = datos[grupo].nombre;
+            nombreInput.onkeypress = (e) => { if (e.key === 'Enter') nombreInput.blur(); };
+            nombreInput.onblur = () => guardarNombreGrupoSec(grupo, anio, cursoId);
+
+            const contador = document.createElement('span');
+            contador.className = 'contador-grupo';
+            contador.textContent = datos[grupo].alumnos.length;
+
+            header.appendChild(nombreInput);
+            header.appendChild(contador);
+            card.appendChild(header);
+
+            const alumnosContainer = document.createElement('div');
+            alumnosContainer.className = 'alumnos-container';
+
+            datos[grupo].alumnos.forEach((alumno, idx) => {
+                const item = crearItemAlumno(alumno, () => eliminarAlumnoSec(grupo, anio, cursoId, idx));
+                alumnosContainer.appendChild(item);
+            });
+
+            card.appendChild(alumnosContainer);
+
+            const inputId = `input-sec-${cursoId}-${anio}-${grupo}`;
+            card.appendChild(crearInputGroup(inputId, 'Nombre del alumno', () => agregarAlumnoSec(grupo, anio, cursoId), 'btn-agregar-grupo'));
+
+            return card;
+        }
+
+        // ==================== SECUNDARIA - ACCIONES ====================
+        async function agregarAlumnoSec(grupo, anio, cursoId) {
+            const inputId = `input-sec-${cursoId}-${anio}-${grupo}`;
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            const nombre = input.value.trim();
+            if (!nombre) { mostrarMensaje('Por favor ingresá un nombre', 'error'); return; }
+
+            datosSecundaria[cursoId][anio][grupo].alumnos.push(nombre);
+            input.value = '';
+            await guardarDatos('secundaria');
+            renderizarSecundaria(cursoId);
+            mostrarMensaje(`${nombre} agregado al grupo`, 'exito');
+
+            setTimeout(() => {
+                const newInput = document.getElementById(inputId);
+                if (newInput) newInput.focus();
+            }, 50);
+        }
+
+        async function eliminarAlumnoSec(grupo, anio, cursoId, idx) {
+            const nombre = datosSecundaria[cursoId][anio][grupo].alumnos[idx];
+            datosSecundaria[cursoId][anio][grupo].alumnos.splice(idx, 1);
+            await guardarDatos('secundaria');
+            renderizarSecundaria(cursoId);
+            mostrarMensaje(`${nombre} eliminado`, 'exito');
+        }
+
+        async function guardarNombreGrupoSec(grupo, anio, cursoId) {
+            const inputId = `nombre-sec-${cursoId}-${anio}-${grupo}`;
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            const nuevoNombre = input.value.trim();
+            if (!nuevoNombre) { input.value = datosSecundaria[cursoId][anio][grupo].nombre; return; }
+
+            if (datosSecundaria[cursoId][anio][grupo].nombre !== nuevoNombre) {
+                datosSecundaria[cursoId][anio][grupo].nombre = nuevoNombre;
+                await guardarDatos('secundaria');
+                mostrarMensaje(`Grupo renombrado a "${nuevoNombre}"`, 'exito');
+            }
+        }
+
+        function calcularAlumnosSec(cursoId, anio) {
+            let total = 0;
+            for (let g = 1; g <= 10; g++) total += datosSecundaria[cursoId][anio][g].alumnos.length;
+            return total;
+        }
+
         // ==================== HELPERS DOM ====================
         function crearItemAlumno(nombre, onEliminar) {
             const item = document.createElement('div');
@@ -1128,7 +1307,7 @@
 
         // ==================== DESCARGA Y LIMPIEZA ====================
         function descargarDatos() {
-            const datos = { informatica: datosInformatica, robotica: datosRobotica };
+            const datos = { informatica: datosInformatica, robotica: datosRobotica, secundaria: datosSecundaria };
             const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -1139,30 +1318,36 @@
         }
 
         async function limpiarSeccionActual() {
-            const nivel = nivelActual;
-            const seccion = seccionActual[nivel];
-            const labelNivel = nivel === 'primaria' ? 'Primaria' : 'Secundaria';
-            const labelSec = seccion === 'informatica' ? 'Informática' : 'Robótica';
-
-            if (!confirm(`¿Limpiar todos los datos de ${labelNivel} - ${labelSec}? Esta acción no se puede deshacer.`)) return;
-
-            const maxGrado = nivel === 'primaria' ? 7 : 5;
-
-            if (seccion === 'informatica') {
-                for (let g = 1; g <= maxGrado; g++)
-                    for (let m = 1; m <= 13; m++)
-                        datosInformatica[nivel][g][m] = [];
-                await guardarDatos('informatica');
-                renderizarInformatica(nivel);
-            } else {
-                for (let g = 1; g <= maxGrado; g++)
+            if (nivelActual === 'secundaria') {
+                const curso = CURSOS_SECUNDARIA.find(c => c.id === cursoActualSecundaria);
+                if (!confirm(`¿Limpiar todos los datos de "${curso.nombre}"? Esta acción no se puede deshacer.`)) return;
+                for (let a = 1; a <= 5; a++)
                     for (let gr = 1; gr <= 10; gr++)
-                        datosRobotica[nivel][g][gr].alumnos = [];
-                await guardarDatos('robotica');
-                renderizarRobotica(nivel);
+                        datosSecundaria[cursoActualSecundaria][a][gr].alumnos = [];
+                await guardarDatos('secundaria');
+                renderizarSecundaria(cursoActualSecundaria);
+                mostrarMensaje(`"${curso.nombre}" limpiado`, 'exito');
+                return;
             }
 
-            mostrarMensaje(`${labelNivel} - ${labelSec} limpiado`, 'exito');
+            const seccion = seccionActual[nivelActual];
+            const labelSec = seccion === 'informatica' ? 'Informática' : 'Robótica';
+            if (!confirm(`¿Limpiar todos los datos de Primaria - ${labelSec}? Esta acción no se puede deshacer.`)) return;
+
+            if (seccion === 'informatica') {
+                for (let g = 1; g <= 7; g++)
+                    for (let m = 1; m <= 13; m++)
+                        datosInformatica.primaria[g][m] = [];
+                await guardarDatos('informatica');
+                renderizarInformatica('primaria');
+            } else {
+                for (let g = 1; g <= 7; g++)
+                    for (let gr = 1; gr <= 10; gr++)
+                        datosRobotica.primaria[g][gr].alumnos = [];
+                await guardarDatos('robotica');
+                renderizarRobotica('primaria');
+            }
+            mostrarMensaje(`Primaria - ${labelSec} limpiado`, 'exito');
         }
 
         // ==================== LOGO ====================
@@ -1195,6 +1380,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             inicializarDatos();
             buildNavTabs();
+            buildSecundaria();
             cargarLogo();
             inicializarDB();
         });
